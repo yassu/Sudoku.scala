@@ -118,6 +118,20 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("countMap") {
+    assert(exampleBoard.countMap == Map(
+      1 -> 5,
+      2 -> 5,
+      3 -> 5,
+      4 -> 5,
+      5 -> 5,
+      6 -> 5,
+      7 -> 5,
+      8 -> 7,
+      9 -> 5,
+      ))
+  }
+
   it ("toString") {
     assert(exampleBoard.toString ==
       ".....9..." +
