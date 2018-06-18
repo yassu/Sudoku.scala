@@ -7,6 +7,12 @@ case class SudokuCell(value: Option[Int]) {
   }
 }
 
+object SudokuCell {
+  def parse(c: Char): SudokuCell =
+    if (Set('1', '2', '3', '4', '5', '6', '7', '8', '9').contains(c)) SudokuCell(Some(c.asDigit))
+    else SudokuCell(None)
+}
+
 case class Board(cells: List[List[SudokuCell]]) {
   val countSet: Set[Int] = countMap.values.toSet
 
@@ -43,4 +49,20 @@ case class Board(cells: List[List[SudokuCell]]) {
     }
   }
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
+}
+
+object Board {
+  def parse(s: String): Option[Board] = {
+    if (s.size != 81) None
+    else {
+      Some(Board (
+        (
+        for (y <- (0 until 9)) yield
+          (
+            for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
+          ).toList
+        ).toList
+      ))
+    }
+  }
 }

@@ -15,6 +15,20 @@ class SudokuCellSpec extends FunSpec {
       assert(SudokuCell(None).toString == ".")
     }
   }
+
+  it ("parse") {
+    assert(SudokuCell.parse('.') == SudokuCell(None))
+    assert(SudokuCell.parse('x') == SudokuCell(None))
+    assert(SudokuCell.parse('1') == SudokuCell(Some(1)))
+    assert(SudokuCell.parse('2') == SudokuCell(Some(2)))
+    assert(SudokuCell.parse('3') == SudokuCell(Some(3)))
+    assert(SudokuCell.parse('4') == SudokuCell(Some(4)))
+    assert(SudokuCell.parse('5') == SudokuCell(Some(5)))
+    assert(SudokuCell.parse('6') == SudokuCell(Some(6)))
+    assert(SudokuCell.parse('7') == SudokuCell(Some(7)))
+    assert(SudokuCell.parse('8') == SudokuCell(Some(8)))
+    assert(SudokuCell.parse('9') == SudokuCell(Some(9)))
+  }
 }
 
 class BoardSpec extends FunSpec {
@@ -152,5 +166,15 @@ class BoardSpec extends FunSpec {
       ".458.2.16" +
       "236.15897"
     )
+  }
+
+  describe ("parse") {
+    it ("example sudoku") {
+      val boardString =
+        "stu..9..." + "36.7..48." + "578..4..." + ".8...36.1" + ".5217.94." + "4.392..78" + "89136.25." + ".458.2.16" + "236.15897"
+      println("boardString")
+      println(boardString)
+      assert(Board.parse(boardString) == Some(exampleBoard))
+    }
   }
 }
