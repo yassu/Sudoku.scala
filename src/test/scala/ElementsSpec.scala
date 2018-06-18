@@ -18,6 +18,56 @@ class SudokuCellSpec extends FunSpec {
 }
 
 class BoardSpec extends FunSpec {
+    val exampleBoard = Board(List(
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
+        SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(8)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+
+      List(
+        SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
+      ),
+      List(
+        SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
+        SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
+        SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
+      ),
+
+      List(
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(1)),
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(2)), SudokuCell(Some(5)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(6)),
+      ),
+      List(
+        SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
+      ),
+    ))
+
   it ("Board instance should be initialized") {
     Board(List(
       List(
@@ -66,5 +116,21 @@ class BoardSpec extends FunSpec {
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
     ))
+  }
+
+  it ("toString") {
+    assert(exampleBoard.toString ==
+      ".....9..." +
+      "36.7..48." +
+      "578..4..." +
+
+      ".8...36.1" +
+      ".5217.94." +
+      "4.392..78" +
+
+      "89136.25." +
+      ".458.2.16" +
+      "236.15897"
+    )
   }
 }

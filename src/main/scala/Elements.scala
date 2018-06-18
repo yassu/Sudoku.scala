@@ -8,4 +8,5 @@ case class SudokuCell(value: Option[Int]) {
 }
 
 case class Board(cells: List[List[SudokuCell]]) {
+  override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }
