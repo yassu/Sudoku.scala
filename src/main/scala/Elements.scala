@@ -6,3 +6,6 @@ case class SudokuCell(value: Option[Int]) {
     case None => "."
   }
 }
+
+case class Board(cells: List[List[SudokuCell]]) {
+}
