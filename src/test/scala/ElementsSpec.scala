@@ -170,11 +170,16 @@ class BoardSpec extends FunSpec {
 
   describe ("parse") {
     it ("example sudoku") {
-      val boardString =
-        "stu..9..." + "36.7..48." + "578..4..." + ".8...36.1" + ".5217.94." + "4.392..78" + "89136.25." + ".458.2.16" + "236.15897"
-      println("boardString")
-      println(boardString)
+      val boardString = exampleBoard.toString
       assert(Board.parse(boardString) == Some(exampleBoard))
+    }
+    it ("large string") {
+      val boardString = exampleBoard.toString + "123"
+      assert(Board.parse(boardString) == None)
+    }
+    it ("strange charactor") {
+      val boardString = exampleBoard.toString.replace('.', 'x')
+      assert(Board.parse(boardString) == None)
     }
   }
 }

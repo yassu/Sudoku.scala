@@ -54,6 +54,7 @@ case class Board(cells: List[List[SudokuCell]]) {
 object Board {
   def parse(s: String): Option[Board] = {
     if (s.size != 81) None
+    else if (s.exists(! Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '.').contains(_))) None
     else {
       Some(Board (
         (
