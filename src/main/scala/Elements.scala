@@ -8,6 +8,8 @@ case class SudokuCell(value: Option[Int]) {
 }
 
 case class Board(cells: List[List[SudokuCell]]) {
+  val countSet: Set[Int] = countMap.values.toSet
+
   def countMap: Map[Int, Int] = {
     val containsInt = (row: List[SudokuCell], n: Int) =>
       if (row.contains(SudokuCell(Some(n)))) 1 else 0
