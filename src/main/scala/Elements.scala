@@ -33,18 +33,17 @@ case class Board(cells: List[List[SudokuCell]]) {
         9 -> 0,
       )
     else {
-      val beforeMap = Board(cells.drop(1)).countMap
-      val cellRow = cells.head
+      val s = this.toString
       Map (
-        1 -> (containsInt(cellRow, 1) + beforeMap(1)),
-        2 -> (containsInt(cellRow, 2) + beforeMap(2)),
-        3 -> (containsInt(cellRow, 3) + beforeMap(3)),
-        4 -> (containsInt(cellRow, 4) + beforeMap(4)),
-        5 -> (containsInt(cellRow, 5) + beforeMap(5)),
-        6 -> (containsInt(cellRow, 6) + beforeMap(6)),
-        7 -> (containsInt(cellRow, 7) + beforeMap(7)),
-        8 -> (containsInt(cellRow, 8) + beforeMap(8)),
-        9 -> (containsInt(cellRow, 9) + beforeMap(9)),
+        1 -> s.count(_ == '1'),
+        2 -> s.count(_ == '2'),
+        3 -> s.count(_ == '3'),
+        4 -> s.count(_ == '4'),
+        5 -> s.count(_ == '5'),
+        6 -> s.count(_ == '6'),
+        7 -> s.count(_ == '7'),
+        8 -> s.count(_ == '8'),
+        9 -> s.count(_ == '9'),
       )
     }
   }
