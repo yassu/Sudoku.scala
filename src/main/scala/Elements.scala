@@ -58,7 +58,7 @@ object Board {
       s.forall(Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '.').contains(_))
 
     if (ok)
-      Some(Board (
+      Some(Board(
       (
         for (y <- (0 until 9)) yield
         (
