@@ -17,35 +17,18 @@ case class Board(cells: List[List[SudokuCell]]) {
   val countSet: Set[Int] = countMap.values.toSet
 
   def countMap: Map[Int, Int] = {
-    val containsInt = (row: List[SudokuCell], n: Int) =>
-      if (row.contains(SudokuCell(Some(n)))) 1 else 0
-
-    if (cells.isEmpty)
-      Map(
-        1 -> 0,
-        2 -> 0,
-        3 -> 0,
-        4 -> 0,
-        5 -> 0,
-        6 -> 0,
-        7 -> 0,
-        8 -> 0,
-        9 -> 0,
-      )
-    else {
-      val s = this.toString
-      Map (
-        1 -> s.count(_ == '1'),
-        2 -> s.count(_ == '2'),
-        3 -> s.count(_ == '3'),
-        4 -> s.count(_ == '4'),
-        5 -> s.count(_ == '5'),
-        6 -> s.count(_ == '6'),
-        7 -> s.count(_ == '7'),
-        8 -> s.count(_ == '8'),
-        9 -> s.count(_ == '9'),
-      )
-    }
+    val s = this.toString
+    Map (
+      1 -> s.count(_ == '1'),
+      2 -> s.count(_ == '2'),
+      3 -> s.count(_ == '3'),
+      4 -> s.count(_ == '4'),
+      5 -> s.count(_ == '5'),
+      6 -> s.count(_ == '6'),
+      7 -> s.count(_ == '7'),
+      8 -> s.count(_ == '8'),
+      9 -> s.count(_ == '9'),
+    )
   }
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }

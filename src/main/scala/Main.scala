@@ -15,13 +15,14 @@ object Main {
          .map(s => {
            val board = Board.parse(s).get
           (board.toString, board.countMap.values.toList.sorted.toString)
-         }).toMap
+         })
 
     println("Loading is finished.")
 
     boards.groupBy(t => t._2).foreach(t =>
     {
       println(t._1)
+      println("count: " + t._2.size)
       t._2.foreach(tk => println(tk._1))
     })
   }
