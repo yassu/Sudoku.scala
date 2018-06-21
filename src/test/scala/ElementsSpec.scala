@@ -132,6 +132,18 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("map") {
+    val f = (x: Int, y: Int) => exampleBoard(x, y) match {
+      case SudokuCell(Some(n)) => SudokuCell(Some(n + 1))
+      case SudokuCell(None) => SudokuCell(None)
+    }
+    assert(exampleBoard.map(f).cells(0) == List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(10)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+    ))
+  }
+
   it ("countSet") {
     assert(exampleBoard.countSet == Set(
       5, 5, 5, 5, 5, 5, 5, 7, 5,

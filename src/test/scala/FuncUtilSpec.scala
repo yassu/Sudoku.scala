@@ -9,7 +9,7 @@ class FuncUtilSpec extends FunSpec {
       (x: Int) => 2 * x,
       3
       ))
-      assert(functions.map(f => f(5)).toList == List(5, 5 * 2, 5 * 2 * 2, 5 * 2 * 2 * 2))
+      assert(functions.map(f => f(5)).toSet == Set(5, 5 * 2, 5 * 2 * 2, 5 * 2 * 2 * 2))
     }
   }
 }

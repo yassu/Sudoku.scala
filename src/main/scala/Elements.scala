@@ -16,6 +16,15 @@ object SudokuCell {
 case class Board(cells: List[List[SudokuCell]]) {
   val countSet: Set[Int] = countMap.values.toSet
 
+  def map(f: (Int, Int) => SudokuCell): Board = Board(
+    (
+      for (y <- (0 until 9)) yield
+      (
+        for (x <- (0 until 9)) yield f(x, y)
+      ).toList
+    ).toList
+  )
+
   def countMap: Map[Int, Int] = {
     val s = this.toString
     Map (
@@ -30,6 +39,8 @@ case class Board(cells: List[List[SudokuCell]]) {
       9 -> s.count(_ == '9'),
     )
   }
+
+  def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }
 

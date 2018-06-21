@@ -17,6 +17,7 @@ object Main {
           (board.toString, board.countMap.values.toList.sorted.toString)
          })
 
+def composite(f: Int => Int, g: Int => Int): Int => Int  = x => f(g(x))
     println("Loading is finished.")
 
     boards.groupBy(t => t._2).foreach(t =>
