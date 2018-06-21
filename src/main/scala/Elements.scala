@@ -75,7 +75,30 @@ object Board {
   }
 }
 
-class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells)
+class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
+  def centralReplacement: SudokuXBoard = {
+    val board = this.map(
+      ((x: Int, y: Int) =>
+        if (2 < x && x < 6) this(8 - x, y)
+        else this(x, y)
+      ))
+    board.map(
+      ((x: Int, y: Int) =>
+        if (2 < y && y < 6) board(x, 8 - y)
+        else board(x, y)
+      )
+    )
+  }
+
+  override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
+    (
+      for (y <- (0 until 9)) yield
+      (
+        for (x <- (0 until 9)) yield f(x, y)
+      ).toList
+    ).toList
+  )
+}
 
 object SudokuXBoard {
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =

@@ -223,6 +223,56 @@ class BoardSpec extends FunSpec {
 }
 
 class SudokuXBoardSpec extends FunSpec {
+    val exampleBoard = SudokuXBoard(List(
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
+        SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(8)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+
+      List(
+        SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
+      ),
+      List(
+        SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
+        SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
+        SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
+      ),
+
+      List(
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(1)),
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(2)), SudokuCell(Some(5)), SudokuCell(None),
+      ),
+      List(
+        SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(6)),
+      ),
+      List(
+        SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
+      ),
+    ))
+
   it ("SudokuXBoard instance should be initialized") {
     SudokuXBoard(List(
       List(
@@ -270,6 +320,20 @@ class SudokuXBoardSpec extends FunSpec {
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
+    ))
+  }
+
+  it ("centralReplacement") {
+    val board = exampleBoard.centralReplacement
+    assert(board(1) == List(
+      SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+      SudokuCell(None), SudokuCell(None), SudokuCell(Some(7)),
+      SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None)
+    ))
+    assert(board(3) == List(
+      SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
+      SudokuCell(None), SudokuCell(Some(2)), SudokuCell(Some(9)),
+      SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8))
     ))
   }
 }
