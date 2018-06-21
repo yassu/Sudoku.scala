@@ -153,6 +153,15 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("flip") {
+    val board = exampleBoard.flip
+    assert(board(2) == List(
+      SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
+      SudokuCell(Some(8)), SudokuCell(Some(7)), SudokuCell(Some(5))
+    ))
+  }
+
   it ("countSet") {
     assert(exampleBoard.countSet == Set(
       5, 5, 5, 5, 5, 5, 5, 7, 5,
@@ -210,5 +219,57 @@ class BoardSpec extends FunSpec {
       val boardString = exampleBoard.toString.replace('.', 'x')
       assert(Board.parse(boardString) == None)
     }
+  }
+}
+
+class SudokuXBoardSpec extends FunSpec {
+  it ("SudokuXBoard instance should be initialized") {
+    SudokuXBoard(List(
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+      List(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None)
+      ),
+    ))
   }
 }

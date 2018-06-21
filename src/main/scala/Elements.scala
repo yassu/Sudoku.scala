@@ -20,6 +20,10 @@ case class Board(cells: List[List[SudokuCell]]) {
     (x: Int, y: Int) => this(y, 8 - x)
   )
 
+  def flip: Board = this.map(
+    (x: Int, y: Int) => this(8 - x, y)
+  )
+
   def map(f: (Int, Int) => SudokuCell): Board = Board(
     (
       for (y <- (0 until 9)) yield
@@ -69,4 +73,11 @@ object Board {
     else
       None
   }
+}
+
+class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells)
+
+object SudokuXBoard {
+  def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
+    new SudokuXBoard(cells)
 }
