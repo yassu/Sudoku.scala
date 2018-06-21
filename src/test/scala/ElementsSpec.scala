@@ -151,6 +151,8 @@ class BoardSpec extends FunSpec {
       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
       SudokuCell(Some(5)), SudokuCell(Some(3)), SudokuCell(None)
     ))
+
+    assert(exampleBoard.rotate.rotate.rotate.rotate == exampleBoard)
   }
 
   it ("flip") {
