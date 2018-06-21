@@ -144,6 +144,15 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("rotate") {
+    val board = exampleBoard.rotate
+    assert(board(0) == List(
+      SudokuCell(Some(2)), SudokuCell(None), SudokuCell(Some(8)),
+      SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
+      SudokuCell(Some(5)), SudokuCell(Some(3)), SudokuCell(None)
+    ))
+  }
+
   it ("countSet") {
     assert(exampleBoard.countSet == Set(
       5, 5, 5, 5, 5, 5, 5, 7, 5,
@@ -162,6 +171,14 @@ class BoardSpec extends FunSpec {
       8 -> 7,
       9 -> 5,
       ))
+  }
+
+  it ("apply") {
+    assert(exampleBoard(0) == List(
+      SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
+      SudokuCell(None), SudokuCell(None), SudokuCell(None),
+    ))
   }
 
   it ("toString") {

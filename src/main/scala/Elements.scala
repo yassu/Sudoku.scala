@@ -16,6 +16,10 @@ object SudokuCell {
 case class Board(cells: List[List[SudokuCell]]) {
   val countSet: Set[Int] = countMap.values.toSet
 
+  def rotate: Board = this.map(
+    (x: Int, y: Int) => this(y, 8 - x)
+  )
+
   def map(f: (Int, Int) => SudokuCell): Board = Board(
     (
       for (y <- (0 until 9)) yield
@@ -41,6 +45,9 @@ case class Board(cells: List[List[SudokuCell]]) {
   }
 
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
+  def apply(y: Int): List[SudokuCell] = (
+    for (x <- (0 until 9)) yield this(x, y)
+  ).toList
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }
 
