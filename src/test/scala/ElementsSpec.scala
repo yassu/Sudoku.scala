@@ -192,6 +192,22 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("toPrettyString") {
+    assert(exampleBoard.toPrettyString ==
+      ".....9...\n" +
+      "36.7..48.\n" +
+      "578..4...\n" +
+
+      ".8...36.1\n" +
+      ".5217.94.\n" +
+      "4.392..78\n" +
+
+      "89136.25.\n" +
+      ".458.2.16\n" +
+      "236.15897"
+    )
+  }
+
   it ("toString") {
     assert(exampleBoard.toString ==
       ".....9..." +

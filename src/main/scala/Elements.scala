@@ -52,6 +52,7 @@ case class Board(cells: List[List[SudokuCell]]) {
   def apply(y: Int): List[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)
   ).toList
+  def toPrettyString: String = cells.map(cellRow => cellRow.mkString("")).mkString("\n")
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }
 
