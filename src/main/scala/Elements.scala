@@ -1,6 +1,7 @@
 package sudoku
 
 import scala.collection.mutable
+import scala.math.Ordering
 
 case class SudokuCell(value: Option[Int]) {
   override def toString: String = value match {
@@ -80,6 +81,9 @@ object Board {
 }
 
 class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
+  def representative: SudokuXBoard =
+    SudokuXBoard.equivalentTransformations.map(f => f(this)).min
+
   override def rotate: SudokuXBoard =
     super.rotate.toSudokuXBoard
 
@@ -196,8 +200,5 @@ object SudokuXBoard {
       None
   }
 
-  implicit object SudokuXBoardOrdering extends Ordering[SudokuXBoard] {
-    override def compare(x: SudokuXBoard, y: SudokuXBoard): Int =
-      x.toString.compare(y.toString)
-  }
+  implicit val ordering: Ordering[SudokuXBoard] = Ordering.by(b => b.toString)
 }
