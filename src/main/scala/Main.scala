@@ -30,15 +30,13 @@ object Main {
     println("checkEquivalenceMain")
 
     val file = Paths.get("data.txt")
-    val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
+    val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList
      .filter(_ != "")
      .map(s => {
-       SudokuXBoard.parse(s).get
+       val board = SudokuXBoard.parse(s).get
+       (board.toString, board.representative.toString)
      })
     println("Loading is finished.")
-
-    val boardFeatures: Seq[(String, String)] = boards
-      .map(b => (b.toString, b.representative.toString))
 
     println("Feature computation is finished.")
 
