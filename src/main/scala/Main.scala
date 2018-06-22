@@ -26,7 +26,35 @@ object Main {
     })
   }
 
+  def checkEquivalenceMain(args: Array[String]) = {
+    println("checkEquivalenceMain")
+
+    val file = Paths.get("data.txt")
+    val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
+     .filter(_ != "")
+     .map(s => {
+       SudokuXBoard.parse(s).get
+     })
+    println("Loading is finished.")
+
+    val boardFeatures: Seq[(String, String)] = boards
+      .map(b => (b.toString, b.representative.toString))
+
+    println("Feature computation is finished.")
+
+    val groups = boardFeatures.groupBy(_._2)
+    groups.foreach(group => {
+      println("=" * 90)
+      println("feature: " + group._1)
+      println("size: " + group._2.size)
+      if (group._2.size > 1) {
+        println("Problem is occured")
+      }
+      group._2.foreach(b => println(b._1))
+    })
+  }
+
   def main(args: Array[String]) {
-    checkEquivalenceByNumberSetMain(args)
+    checkEquivalenceMain(args)
   }
 }
