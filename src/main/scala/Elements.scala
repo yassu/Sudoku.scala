@@ -1,5 +1,7 @@
 package sudoku
 
+import scala.collection.mutable
+
 case class SudokuCell(value: Option[Int]) {
   override def toString: String = value match {
     case Some(n) => n.toString
@@ -100,6 +102,42 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       else this(x, y)
   )
 
+  def normalize: Board = {
+    def normalizeMap: Map[Int, Int] = {
+      var map = mutable.Map[Int, Int]()
+      var count = 0
+      for (y <- (0 until 9)) {
+        for (x <- (0 until 9)) {
+          this(x, y).value match {
+            case Some(n) => {
+              if (! map.keys.toList.contains(n)) {
+                count += 1
+                map(n) = count
+              }
+            }
+            case None =>
+          }
+        }
+      }
+
+      if (map.size < 8)
+        throw new IllegalArgumentException("Count of " + this.toString + " numbers < 8")
+      else if (map.size == 8) {
+        val nonExistedNumber = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- map.keys.toSet).head
+        map(nonExistedNumber) = 9
+      }
+
+      map.toMap
+    }
+
+    this.map(
+      (x: Int, y: Int) => this(x, y).value match {
+        case Some(n) => SudokuCell(Some(normalizeMap(n)))
+        case None => SudokuCell(None)
+      }
+    )
+  }
+
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
       for (y <- (0 until 9)) yield
@@ -113,4 +151,22 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
 object SudokuXBoard {
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
     new SudokuXBoard(cells)
+
+  def parse(s: String): Option[SudokuXBoard] = {
+    val ok =
+      s.size == 81 &&
+      s.forall(Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '.').contains(_))
+
+    if (ok)
+      Some(SudokuXBoard(
+      (
+        for (y <- (0 until 9)) yield
+        (
+          for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
+        ).toList
+      ).toList
+    ))
+    else
+      None
+  }
 }

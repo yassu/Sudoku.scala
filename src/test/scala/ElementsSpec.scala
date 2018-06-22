@@ -437,4 +437,77 @@ class SudokuXBoardSpec extends FunSpec {
       assert(board(8, 8) == SudokuCell(Some(2)))
     }
   }
+
+  describe ("normalize") {
+    it ("normalize1") {
+      val resBoard = SudokuXBoard(List(
+        List(
+          SudokuCell(None), SudokuCell(None), SudokuCell(None),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(1)),
+          SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(None),
+          SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
+          SudokuCell(Some(5)), SudokuCell(Some(6)), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(7)), SudokuCell(Some(4)), SudokuCell(Some(6)),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(5)),
+          SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        ),
+
+        List(
+          SudokuCell(None), SudokuCell(Some(6)), SudokuCell(None),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(2)),
+          SudokuCell(Some(3)), SudokuCell(None), SudokuCell(Some(8)),
+        ),
+        List(
+          SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(9)),
+          SudokuCell(Some(8)), SudokuCell(Some(4)), SudokuCell(None),
+          SudokuCell(Some(1)), SudokuCell(Some(5)), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(5)), SudokuCell(None), SudokuCell(Some(2)),
+          SudokuCell(Some(1)), SudokuCell(Some(9)), SudokuCell(None),
+          SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(6)),
+        ),
+
+        List(
+          SudokuCell(Some(6)), SudokuCell(Some(1)), SudokuCell(Some(8)),
+          SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(None),
+          SudokuCell(Some(9)), SudokuCell(Some(7)), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(7)),
+          SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(9)),
+          SudokuCell(None), SudokuCell(Some(8)), SudokuCell(Some(3)),
+        ),
+        List(
+          SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(Some(3)),
+          SudokuCell(None), SudokuCell(Some(8)), SudokuCell(Some(7)),
+          SudokuCell(Some(6)), SudokuCell(Some(1)), SudokuCell(Some(4)),
+        ),
+      ))
+
+      assert(exampleBoard.normalize == resBoard)
+    }
+
+    it ("normalize2") {
+      val board = SudokuXBoard.parse(
+        "......................................." +
+        "1...23.4..5....6.7.8..........4.2..2....5.").get
+      assert(board.normalize.toString == board.toString)
+    }
+
+    it ("normalize3") {
+      val board = SudokuXBoard.parse(
+        "......................................." +
+        "2...34.5..6....7.8.9..........5.3..3....6.").get
+      val resBoard = SudokuXBoard.parse(
+        "......................................." +
+        "1...23.4..5....6.7.8..........4.2..2....5.").get
+      assert(board.normalize == resBoard)
+    }
+  }
 }
