@@ -54,6 +54,7 @@ case class Board(cells: List[List[SudokuCell]]) {
   def apply(y: Int): List[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)
   ).toList
+  def toSudokuXBoard: SudokuXBoard = SudokuXBoard(cells)
   def toPrettyString: String = cells.map(cellRow => cellRow.mkString("")).mkString("\n")
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
 }
@@ -79,6 +80,12 @@ object Board {
 }
 
 class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
+  override def rotate: SudokuXBoard =
+    super.rotate.toSudokuXBoard
+
+  override def flip: SudokuXBoard =
+    super.flip.toSudokuXBoard
+
   def centralReplacement: SudokuXBoard = {
     val board = this.map(
       ((x: Int, y: Int) =>
@@ -149,6 +156,25 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
 }
 
 object SudokuXBoard {
+  def equivalentTransformations: Set[SudokuXBoard => SudokuXBoard] = {
+    val s3 = Set(
+      Map(0 -> 0, 1 -> 1, 2 -> 2),
+      Map(0 -> 0, 1 -> 2, 2 -> 1),
+      Map(0 -> 1, 1 -> 0, 2 -> 2),
+      Map(0 -> 1, 1 -> 2, 2 -> 0),
+      Map(0 -> 2, 1 -> 1, 2 -> 0),
+      Map(0 -> 2, 1 -> 0, 2 -> 1)
+    )
+
+    val fs = FuncUtil.funcProducts(List(
+      ((b: SudokuXBoard) => b.centralReplacement, 1),
+      ((b: SudokuXBoard) => b.rotate, 3),
+      ((b: SudokuXBoard) => b.flip, 1),
+    )).toSet
+
+    for (f <- fs; g <- s3) yield f.compose((b: SudokuXBoard) => b.edgeReplacement(g))
+  }
+
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
     new SudokuXBoard(cells)
 
@@ -168,5 +194,10 @@ object SudokuXBoard {
     ))
     else
       None
+  }
+
+  implicit object SudokuXBoardOrdering extends Ordering[SudokuXBoard] {
+    override def compare(x: SudokuXBoard, y: SudokuXBoard): Int =
+      x.toString.compare(y.toString)
   }
 }

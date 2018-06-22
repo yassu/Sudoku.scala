@@ -510,4 +510,13 @@ class SudokuXBoardSpec extends FunSpec {
       assert(board.normalize == resBoard)
     }
   }
+
+  describe ("equivalentTransformations") {
+    it ("size") {
+      val board = SudokuXBoard.parse(
+        ".......................................1...23.4..5....6.7.8..........4.2..2....5.").get
+      println(SudokuXBoard.equivalentTransformations.size)
+      assert(SudokuXBoard.equivalentTransformations.map(_(board)).toSet.size == 96)
+    }
+  }
 }
