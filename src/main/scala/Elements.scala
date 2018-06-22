@@ -91,6 +91,15 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     )
   }
 
+  def edgeReplacement(sigmaInv: Map[Int, Int]): SudokuXBoard = this.map (
+    (x: Int, y: Int) =>
+      if (0 <= x && x < 3 && x == y) this(sigmaInv(x), sigmaInv(y))
+      else if (0 <= x && x < 3 && x + y == 8) this(sigmaInv(x), 8 - sigmaInv(8 - y))
+      else if (6 <= x && x < 9 && x == y) this(8 - sigmaInv(8 - x), 8 - sigmaInv(8 - y))
+      else if (6 <= x && x < 9 && x + y == 8) this(8 - sigmaInv(8 - x), sigmaInv(y))
+      else this(x, y)
+  )
+
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
       for (y <- (0 until 9)) yield

@@ -354,4 +354,87 @@ class SudokuXBoardSpec extends FunSpec {
       SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8))
     ))
   }
+
+  describe ("edgeReplacement") {
+    it ("edgeReplacement1") {
+      val sigma = Map(0 -> 0, 1 -> 1, 2 -> 2)
+      assert(exampleBoard.edgeReplacement(sigma) == exampleBoard)
+    }
+
+    it ("edgeReplacement2") {
+      val sigma = Map(0 -> 0, 1 -> 2, 2 -> 1)
+      val resBoard = SudokuXBoard(List(
+        List(
+          SudokuCell(None), SudokuCell(None), SudokuCell(None),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
+          SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(3)), SudokuCell(Some(8)), SudokuCell(None),
+          SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
+          SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(6)),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
+          SudokuCell(Some(8)), SudokuCell(None), SudokuCell(None),
+        ),
+
+        List(
+          SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
+          SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
+          SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
+        ),
+        List(
+          SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
+          SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
+          SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
+          SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
+          SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
+        ),
+
+        List(
+          SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(4)),
+          SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+          SudokuCell(Some(1)), SudokuCell(Some(5)), SudokuCell(None),
+        ),
+        List(
+          SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
+          SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
+          SudokuCell(None), SudokuCell(Some(2)), SudokuCell(Some(6)),
+        ),
+        List(
+          SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
+          SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
+          SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
+        ),
+      ))
+
+      assert(exampleBoard.edgeReplacement(sigma) == resBoard)
+    }
+
+    it ("edgeReplacement3") {
+      val sigmaInv = Map(0 -> 2, 1 -> 0, 2 -> 1)
+      val board = exampleBoard.edgeReplacement(sigmaInv)
+
+      assert(board(0, 0) == SudokuCell(Some(8)))
+      assert(board(1, 1) == SudokuCell(None))
+      assert(board(2, 2) == SudokuCell(Some(6)))
+
+      assert(board(8, 0) == SudokuCell(None))
+      assert(board(7, 1) == SudokuCell(None))
+      assert(board(6, 2) == SudokuCell(Some(8)))
+
+      assert(board(0, 8) == SudokuCell(Some(1)))
+      assert(board(1, 7) == SudokuCell(Some(2)))
+      assert(board(2, 6) == SudokuCell(Some(4)))
+
+      assert(board(6, 6) == SudokuCell(Some(1)))
+      assert(board(7, 7) == SudokuCell(Some(7)))
+      assert(board(8, 8) == SudokuCell(Some(2)))
+    }
+  }
 }
