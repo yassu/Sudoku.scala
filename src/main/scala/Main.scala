@@ -5,10 +5,9 @@ import java.nio.charset.Charset
 import java.nio.file.{Paths, Files}
 
 object Main {
-  def checkEquivalenceMain(args: Array[String]) = {
-    println("checkEquivalenceMain")
+  def checkEquivalenceByNumberSetMain(args: Array[String]) = {
+    println("checkEquivalenceByNumberSetMain")
 
-    // val filename = args(0)
     val file = Paths.get("data.txt")
     val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
          .filter(_ != "")
@@ -17,7 +16,6 @@ object Main {
           (board.toString, board.countMap.values.toList.sorted.toString)
          })
 
-def composite(f: Int => Int, g: Int => Int): Int => Int  = x => f(g(x))
     println("Loading is finished.")
 
     boards.groupBy(t => t._2).foreach(t =>
@@ -29,6 +27,6 @@ def composite(f: Int => Int, g: Int => Int): Int => Int  = x => f(g(x))
   }
 
   def main(args: Array[String]) {
-    checkEquivalenceMain(args)
+    checkEquivalenceByNumberSetMain(args)
   }
 }
