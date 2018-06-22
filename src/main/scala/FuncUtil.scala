@@ -12,5 +12,14 @@ object FuncUtil {
         (x: Int) => fs._1(beforeFuncs.last(x))
       )
     }
+
+  def funcProducts(fs: List[(Int => Int, Int)]): List[Int => Int] =
+    if (fs.isEmpty) List()
+    else {
+      val beforeFuncs = funcProducts(fs.drop(1))
+      val nowFuncs = funcProduct(fs.head)
+      funcProducts(fs.drop(1)) ++ funcProduct(fs.head) ++
+        (for (fs <- beforeFuncs; gs <- nowFuncs) yield((x: Int) => gs(fs(x))))
+    }
 }
 
