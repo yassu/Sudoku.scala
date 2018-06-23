@@ -113,7 +113,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       else this(x, y)
   )
 
-  def normalize: Board = {
+  def normalize: SudokuXBoard = {
     def normalizeMap: Map[Int, Int] = {
       var map = mutable.Map[Int, Int]()
       var count = 0
@@ -176,7 +176,8 @@ object SudokuXBoard {
       ((b: SudokuXBoard) => b.flip, 1),
     )).toSet
 
-    for (f <- fs; g <- s3) yield f.compose((b: SudokuXBoard) => b.edgeReplacement(g))
+    for (f <- fs; g <- s3) yield f.compose((b: SudokuXBoard) => b.edgeReplacement(g)) andThen
+      (b => b.normalize)
   }
 
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =

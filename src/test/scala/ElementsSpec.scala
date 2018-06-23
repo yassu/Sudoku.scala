@@ -511,12 +511,19 @@ class SudokuXBoardSpec extends FunSpec {
     }
   }
 
-  // describe ("equivalentTransformations") {
-  //   it ("size") {
-  //     val board = SudokuXBoard.parse(
-  //       ".......................................1...23.4..5....6.7.8..........4.2..2....5.").get
-  //     println(SudokuXBoard.equivalentTransformations.size)
-  //     assert(SudokuXBoard.equivalentTransformations.map(_(board)).toSet.size == 96)
-  //   }
-  // }
+  describe ("equivalentTransformations") {
+    val board = SudokuXBoard.parse(
+      ".......................................1...23.4..5....6.7.8..........4.2..2....5.").get
+    val boards = SudokuXBoard.equivalentTransformations.map(_(board)).toSet
+    it ("some elements") {
+      assert(boards.contains(board.normalize))
+      assert(boards.contains(board.flip.normalize))
+      assert(boards.contains(board.rotate.normalize))
+      assert(boards.contains(board.rotate.rotate.rotate.flip.centralReplacement.normalize))
+
+      val perm = Map(0 -> 1, 1 -> 2, 2 -> 0)
+      assert(boards.contains(board.rotate.rotate.rotate.flip.centralReplacement.
+        edgeReplacement(perm).normalize))
+    }
+  }
 }
