@@ -49,6 +49,8 @@ object Main {
         println("size: " + group._2.size)
         println()
 
+        group._2.foreach(b => println(b._1.replace("\n", "")))
+        println()
         group._2.foreach(b => {
           println(b._1)
           println()
