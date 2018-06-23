@@ -45,6 +45,7 @@ object Main {
       if (group._2.size > 1) {
         println("=" * 90)
         println("feature:")
+        println(group._1.replace("\n", ""))
         println(group._1)
         println("size: " + group._2.size)
         println()
