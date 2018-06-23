@@ -30,26 +30,31 @@ object Main {
     println("checkEquivalenceMain")
 
     val file = Paths.get("data.txt")
-    val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList
+    val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList.take(10000)
      .filter(_ != "")
      .map(s => {
        val board = SudokuXBoard.parse(s).get
-       (board.toString, board.representative.toString)
+       (board.toPrettyString, board.representative.toPrettyString)
      })
     println("Loading is finished.")
 
     println("Feature computation is finished.")
 
     val groups = boardFeatures.groupBy(_._2)
-    groups.foreach(group => {
-      println("=" * 90)
-      println("feature: " + group._1)
-      println("size: " + group._2.size)
+    groups.foreach(group =>
       if (group._2.size > 1) {
-        println("Problem is occured")
+        println("=" * 90)
+        println("feature:")
+        println(group._1)
+        println("size: " + group._2.size)
+        println()
+
+        group._2.foreach(b => {
+          println(b._1)
+          println()
+        })
       }
-      group._2.foreach(b => println(b._1))
-    })
+    )
   }
 
   def main(args: Array[String]) {
