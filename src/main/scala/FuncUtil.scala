@@ -1,5 +1,7 @@
 package sudoku
 
+import scala.collection.mutable
+
 object FuncUtil {
   def funcProduct[A](fs: (A => A, Int)): List[A => A] =
     if (fs._2 == 0) {
@@ -13,13 +15,19 @@ object FuncUtil {
       )
     }
 
-  def funcProducts[A](fs: List[(A => A, Int)]): List[A => A] =
-    if (fs.isEmpty) List()
+  def funcProducts[A](fs: List[(A => A, Int)]): Set[A => A] =
+    if (fs.isEmpty) Set()
     else {
-      val beforeFuncs = funcProducts(fs.drop(1))
-      val nowFuncs = funcProduct(fs.head)
-      funcProducts(fs.drop(1)) ++ funcProduct(fs.head) ++
-        (for (fs <- beforeFuncs; gs <- nowFuncs) yield((x: A) => gs(fs(x))))
+      var funcs = mutable.Set[A => A]()
+      var beforeFuncs = funcProducts(fs.drop(1))
+      var nowFuncs = funcProduct(fs.head)
+
+      funcs ++= beforeFuncs
+      funcs ++= nowFuncs
+      for (fs <- beforeFuncs; gs <- nowFuncs) {
+        funcs += ((x:A)  => gs(fs(x)))
+      }
+      funcs.toSet
     }
 }
 
