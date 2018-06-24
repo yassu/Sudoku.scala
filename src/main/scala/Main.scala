@@ -30,11 +30,12 @@ object Main {
     println("checkEquivalenceMain")
 
     val file = Paths.get("data.txt")
+    val fs = SudokuXBoard.equivalentTransformations
     val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList.take(10000)
      .filter(_ != "")
      .map(s => {
        val board = SudokuXBoard.parse(s).get
-       (board.toPrettyString, board.representative.toPrettyString)
+       (board.toPrettyString, board.representative(fs).toPrettyString)
      })
     println("Loading is finished.")
 

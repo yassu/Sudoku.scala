@@ -81,8 +81,8 @@ object Board {
 }
 
 class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
-  def representative: SudokuXBoard =
-    SudokuXBoard.equivalentTransformations.map(f => f(this)).min
+  def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
+    fs.map(f => f(this)).min
 
   override def rotate: SudokuXBoard =
     super.rotate.toSudokuXBoard
