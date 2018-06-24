@@ -104,14 +104,22 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     )
   }
 
-  def edgeReplacement(sigmaInv: Map[Int, Int]): SudokuXBoard = this.map (
-    (x: Int, y: Int) =>
-      if (0 <= x && x < 3 && x == y) this(sigmaInv(x), sigmaInv(y))
-      else if (0 <= x && x < 3 && x + y == 8) this(sigmaInv(x), 8 - sigmaInv(8 - y))
-      else if (6 <= x && x < 9 && x == y) this(8 - sigmaInv(8 - x), 8 - sigmaInv(8 - y))
-      else if (6 <= x && x < 9 && x + y == 8) this(8 - sigmaInv(8 - x), sigmaInv(y))
-      else this(x, y)
-  )
+  def edgeReplacement(sigmaInv: Map[Int, Int]): SudokuXBoard = {
+    val board = this.map(
+      ((x: Int, y: Int) =>
+        if (0 <= x && x < 3) this(sigmaInv(x), y)
+        else if (6 <= x && x < 9) this(8 - sigmaInv(8 - x), y)
+        else this(x, y)
+      )
+    )
+    board.map (
+      ((x: Int, y: Int) =>
+        if (0 <= y && y < 3) board(x, sigmaInv(y))
+        else if (6 <= y && y < 9) board(x, 8 - sigmaInv(8 - y))
+        else board(x, y)
+      )
+    )
+  }
 
   def normalize: SudokuXBoard = {
     def normalizeMap: Map[Int, Int] = {
@@ -161,23 +169,12 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
 
 object SudokuXBoard {
   def equivalentTransformations: Set[SudokuXBoard => SudokuXBoard] = {
-    val s3 = Set(
-      Map(0 -> 0, 1 -> 1, 2 -> 2),
-      Map(0 -> 0, 1 -> 2, 2 -> 1),
-      Map(0 -> 1, 1 -> 0, 2 -> 2),
-      Map(0 -> 1, 1 -> 2, 2 -> 0),
-      Map(0 -> 2, 1 -> 1, 2 -> 0),
-      Map(0 -> 2, 1 -> 0, 2 -> 1)
-    )
-
     val fs = FuncUtil.funcProducts(List(
       ((b: SudokuXBoard) => b.centralReplacement, 1),
       ((b: SudokuXBoard) => b.rotate, 3),
       ((b: SudokuXBoard) => b.flip, 1),
     )).toSet
-
-    for (f <- fs; g <- s3) yield f.compose((b: SudokuXBoard) => b.edgeReplacement(g)) andThen
-      (b => b.normalize)
+    fs
   }
 
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
