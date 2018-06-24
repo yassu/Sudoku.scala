@@ -169,12 +169,23 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
 
 object SudokuXBoard {
   def equivalentTransformations: Set[SudokuXBoard => SudokuXBoard] = {
+    val s3 = Set(
+      Map(0 -> 0, 1 -> 1, 2 -> 2),
+      Map(0 -> 0, 1 -> 2, 2 -> 1),
+      Map(0 -> 1, 1 -> 0, 2 -> 2),
+      Map(0 -> 1, 1 -> 2, 2 -> 0),
+      Map(0 -> 2, 1 -> 1, 2 -> 0),
+      Map(0 -> 2, 1 -> 0, 2 -> 1)
+    )
+
     val fs = FuncUtil.funcProducts(List(
       ((b: SudokuXBoard) => b.centralReplacement, 1),
       ((b: SudokuXBoard) => b.rotate, 3),
       ((b: SudokuXBoard) => b.flip, 1),
     )).toSet
-    fs
+
+    for (f <- fs; g <- s3) yield f.compose((b: SudokuXBoard) => b.edgeReplacement(g)) andThen
+      (b => b.normalize)
   }
 
   def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
