@@ -31,7 +31,7 @@ object Main {
 
     val file = Paths.get("data.txt")
     val fs = SudokuXBoard.equivalentTransformations
-    val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList.take(10000)
+    val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList
      .filter(_ != "")
      .map(s => {
        val board = SudokuXBoard.parse(s).get
