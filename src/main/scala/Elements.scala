@@ -149,9 +149,10 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       map.toMap
     }
 
+    val nMap = normalizeMap
     this.map(
       (x: Int, y: Int) => this(x, y).value match {
-        case Some(n) => SudokuCell(Some(normalizeMap(n)))
+        case Some(n) => SudokuCell(Some(nMap(n)))
         case None => SudokuCell(None)
       }
     )
