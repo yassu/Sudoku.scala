@@ -287,6 +287,22 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     this
   }
 
+  def solveNext2: SudokuXBoard = {
+    for (y <- (0 until 9)) {
+      for (x <- (0 until 9)) {
+        val candidate = this.candidates(x, y)
+        println(x, y, candidate)
+        if (! this(x, y).isDefined && this.candidates(x, y).size == 1) {
+          val value = this.candidates(x, y).head
+          return this.map(
+            (x0: Int, y0: Int) => if (x == x0 && y == y0) SudokuCell(Some(value)) else this(x0, y0)
+          )
+        }
+      }
+    }
+    this
+  }
+
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
       for (y <- (0 until 9)) yield
