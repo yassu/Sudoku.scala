@@ -36,20 +36,8 @@ case class Board(cells: List[List[SudokuCell]]) {
     ).toList
   )
 
-  def countMap: Map[Int, Int] = {
-    val s = this.toString
-    Map (
-      1 -> s.count(_ == '1'),
-      2 -> s.count(_ == '2'),
-      3 -> s.count(_ == '3'),
-      4 -> s.count(_ == '4'),
-      5 -> s.count(_ == '5'),
-      6 -> s.count(_ == '6'),
-      7 -> s.count(_ == '7'),
-      8 -> s.count(_ == '8'),
-      9 -> s.count(_ == '9'),
-    )
-  }
+  def countMap: Map[Int, Int] =
+    (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
   def apply(y: Int): List[SudokuCell] = (
