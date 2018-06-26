@@ -61,7 +61,19 @@ object Main {
     )
   }
 
+  def solveSudokuXMain(args: Array[String]) = {
+    println("solveSudokuXMain")
+
+    val file = Paths.get("data.txt")
+    val board = Files.readAllLines(file, Charset.defaultCharset()).take(1)
+      .map(s => {
+        SudokuXBoard.parse(s).get
+      })
+      .head
+    println(board.toPrettyString)
+  }
+
   def main(args: Array[String]) {
-    checkEquivalenceMain(args)
+    solveSudokuXMain(args)
   }
 }
