@@ -158,7 +158,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       val row = this(y0).filter(_.isDefined)
       if (row.size == 8) {
         val x0 = (0 until 9).filter(! this(_, y0).isDefined).head
-        val values = row.filter(_.isDefined).map(_.value.get).toSet
+        val values = row.map(_.value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
         return this.map(
           (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
@@ -171,7 +171,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       val col = this.col(x0).filter(_.isDefined)
       if (col.size == 8) {
         val y0 = (0 until 9).filter(! this(x0, _).isDefined).head
-        val values = col.filter(_.isDefined).map(_.value.get).toSet
+        val values = col.map(_.value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
         return this.map(
           (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
@@ -189,7 +189,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
           val pos =
             (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
             .filter(t => ! this(t._1, t._2).isDefined).head
-          val values = cells.filter(_.isDefined).map(_.value.get).toSet
+          val values = cells.map(_.value.get).toSet
           val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
           return this.map(
             (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
