@@ -290,7 +290,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
   def solveNext2: SudokuXBoard = {
     for (y <- (0 until 9)) {
       for (x <- (0 until 9)) {
-        val candidate = this.candidates(x, y)
+        val candidates = this.candidates(x, y)
         if (! this(x, y).isDefined && this.candidates(x, y).size == 1) {
           val value = this.candidates(x, y).head
           return this.map(
