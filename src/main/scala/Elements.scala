@@ -155,10 +155,23 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
   def solveNext1: SudokuXBoard = {
     // 横方向
     for (y0 <- (0 until 9)) {
-      val cal = this(y0).filter(_.isDefined)
-      if (cal.size == 8) {
+      val row = this(y0).filter(_.isDefined)
+      if (row.size == 8) {
         val x0 = (0 until 9).filter(! this(_, y0).isDefined).head
-        val values = cal.filter(_.isDefined).map(_.value.get).toSet
+        val values = row.filter(_.isDefined).map(_.value.get).toSet
+        val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
+        return this.map(
+          (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
+        )
+      }
+    }
+
+    // 縦方向
+    for (x0 <- (0 until 9)) {
+      val col = this.col(x0).filter(_.isDefined)
+      if (col.size == 8) {
+        val y0 = (0 until 9).filter(! this(x0, _).isDefined).head
+        val values = col.filter(_.isDefined).map(_.value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
         return this.map(
           (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)

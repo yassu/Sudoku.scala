@@ -537,5 +537,31 @@ class SudokuXBoardSpec extends FunSpec {
       ).get
       assert(board.solveNext1 == resBoard)
     }
+
+    it ("縦方向") {
+      val board = SudokuXBoard.parse(
+        "...1....." +
+        "...2....." +
+        "........." +
+        "...6....." +
+        "...7....." +
+        "...8....." +
+        "...9....." +
+        "...3....." +
+        "...5....1"
+      ).get
+      val resBoard = SudokuXBoard.parse(
+        "...1....." +
+        "...2....." +
+        "...4....." +
+        "...6....." +
+        "...7....." +
+        "...8....." +
+        "...9....." +
+        "...3....." +
+        "...5....1"
+      ).get
+      assert(board.solveNext1 == resBoard)
+    }
   }
 }
