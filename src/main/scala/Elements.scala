@@ -75,6 +75,8 @@ object Board {
 }
 
 class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
+  var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
+
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
     fs.map(f => f(this)).min
 
@@ -153,6 +155,10 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
   }
 
   def candidates(x: Int, y: Int): Set[Int] = {
+    if (_candidates.keySet.contains((x, y))) {
+      return _candidates((x, y))
+    }
+
     var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
     // 横方向
@@ -204,7 +210,9 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       }
     }
 
-    s.toSet
+    val res = s.toSet
+    _candidates((x, y)) = res
+    res
   }
 
   def solveNext1: SudokuXBoard = {
