@@ -178,6 +178,26 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
         )
       }
     }
+
+    // セル内
+    for (x <- (0 until 3)) {
+      for (y <- (0 until 3)) {
+        val cells =
+          (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield this(x0, y0))
+          .filter(_.isDefined)
+        if (cells.size == 8) {
+          val pos =
+            (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
+            .filter(t => ! this(t._1, t._2).isDefined).head
+          val values = cells.filter(_.isDefined).map(_.value.get).toSet
+          val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
+          return this.map(
+            (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
+          )
+        }
+      }
+    }
+
     this
   }
 
