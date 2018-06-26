@@ -198,6 +198,17 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       }
     }
 
+    // 対角線上
+    val diagonalCells = (for (j <- (0 until 9)) yield this(j, j)).filter(_.isDefined)
+    if (diagonalCells.size == 8) {
+      val pos = (for (j <- (0 until 9)) yield (j, j)).filter(pos => ! this(pos._1, pos._2).isDefined).head
+      val values = diagonalCells.map(_.value.get).toSet
+      val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
+      return this.map(
+        (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
+      )
+    }
+
     this
   }
 
