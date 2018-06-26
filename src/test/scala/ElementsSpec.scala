@@ -511,6 +511,83 @@ class SudokuXBoardSpec extends FunSpec {
     }
   }
 
+  describe ("candidate") {
+    it ("candidates1") {
+      val board = SudokuXBoard.parse(
+        "........." +
+        "12.345678" +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........1"
+      ).get
+      assert(board.candidates(2, 1) == Set(9))
+    }
+
+    it ("candidates2") {
+      val board = SudokuXBoard.parse(
+        "........." +
+        "12.345678" +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........1"
+      ).get
+      assert(board.candidates(8, 7) == Set(2, 3, 4, 5, 6, 7, 9))
+    }
+
+    it ("candidates3") {
+      val board = SudokuXBoard.parse(
+        "........." +
+        "12.345678" +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........1"
+      ).get
+      assert(board.candidates(7, 6) == Set(2, 3, 4, 5, 6, 8, 9))
+    }
+
+    it ("candidates4") {
+      val board = SudokuXBoard.parse(
+        "........." +
+        "12.345678" +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........1"
+      ).get
+      assert(board.candidates(3, 3) == Set(4, 5, 6, 7, 8, 9))
+    }
+
+    it ("candidates5") {
+      val board = SudokuXBoard.parse(
+        "........." +
+        "12.345678" +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........." +
+        "........1"
+      ).get
+      assert(board.candidates(1, 7) == Set(1, 3, 4, 5, 6, 8, 9))
+    }
+  }
+
   describe ("solveNext1") {
     it ("横方向") {
       val board = SudokuXBoard.parse(
