@@ -4,6 +4,10 @@ import scala.collection.mutable
 import scala.math.Ordering
 
 case class SudokuCell(value: Option[Int]) {
+  def isDefined: Boolean = value match {
+    case Some(n) => true
+    case None => false
+  }
   override def toString: String = value match {
     case Some(n) => n.toString
     case None => "."
@@ -144,6 +148,22 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
         case None => SudokuCell(None)
       }
     )
+  }
+
+  def solveNext1: SudokuXBoard = {
+    // 横方向
+    for (y0 <- (0 until 9)) {
+      val cal = this(y0).filter(_.isDefined)
+      if (cal.size == 8) {
+        val x0 = (0 until 9).filter(! this(_, y0).isDefined).head
+        val values = cal.filter(_.isDefined).map(_.value.get).toSet
+        val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
+        return this.map(
+          (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
+        )
+      }
+    }
+    this
   }
 
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
