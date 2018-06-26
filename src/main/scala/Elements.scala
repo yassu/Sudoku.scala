@@ -43,6 +43,8 @@ case class Board(cells: List[List[SudokuCell]]) {
   def countMap: Map[Int, Int] =
     (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
+  def row(y: Int): List[SudokuCell] = this(y)
+  def col(x: Int): List[SudokuCell] = (0 until 9).map(this(x, _)).toList
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
   def apply(y: Int): List[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)

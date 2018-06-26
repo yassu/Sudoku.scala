@@ -522,7 +522,7 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........."
+        "........1"
       ).get
       val resBoard = SudokuXBoard.parse(
         "........." +
@@ -533,7 +533,7 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........."
+        "........1"
       ).get
       assert(board.solveNext1 == resBoard)
     }
