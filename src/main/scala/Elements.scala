@@ -159,6 +159,11 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       return _candidates((x, y))
     }
 
+    if (this(x, y).isDefined)
+    {
+      return Set(this(x, y).value.get)
+    }
+
     var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
     // 横方向
@@ -301,6 +306,13 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     }
     this
   }
+
+  // def solveNext3: SudokuXBoard = {
+  //   // 横方向で候補になっている場所が一つだけなら確定
+  //   for (y <- (0 until 9)) {
+  //     var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- (for () this.candidates(x, y)).toSet
+  //   }
+  // }
 
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
