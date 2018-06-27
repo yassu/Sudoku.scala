@@ -307,12 +307,26 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     this
   }
 
-  // def solveNext3: SudokuXBoard = {
-  //   // 横方向で候補になっている場所が一つだけなら確定
-  //   for (y <- (0 until 9)) {
-  //     var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- (for () this.candidates(x, y)).toSet
-  //   }
-  // }
+  def solveNext3: SudokuXBoard = {
+    // 横方向で候補になっている場所が一つだけなら確定
+    for (y <- (0 until 9)) {
+      var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- this(y).filter(_.isDefined).map(_.value.get).toSet
+      for (number <- numbers) {
+        val positions =
+          (for (x <- (0 until 9)) yield (x, y)).filter(t => this.candidates(t._1, t._2).contains(number))
+          .toSet
+        if (positions.size == 1) {
+          val position = positions.head
+          return this.map(
+            (x0: Int, y0: Int) =>
+              if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
+              else this(x0, y0)
+          )
+        }
+      }
+    }
+    this
+  }
 
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
