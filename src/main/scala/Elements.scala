@@ -420,6 +420,16 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     return this
   }
 
+  def solve: SudokuXBoard = {
+    val sol = this.solveNext
+    if (this == sol) {
+      return this
+    }
+    else {
+      return sol.solve
+    }
+  }
+
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
       for (y <- (0 until 9)) yield
