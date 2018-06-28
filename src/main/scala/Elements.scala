@@ -343,6 +343,60 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
           }
       }
     }
+
+    for (yC <- (0 until 3)) {
+      for (xC <- (0 until 3)) {
+        val numbers = (1 to 9).toSet --
+          (for (y <- (3 * yC until 3 * yC + 3); x <- (3 * xC until 3 * xC + 3)) yield this(x, y))
+          .filter(_.isDefined).map(_.value.get).toSet
+        for (number <- numbers) {
+          val positions =
+            (for (y <- (3 * xC until 3 * xC + 3); x <- (3 * yC until 3 * yC + 3)) yield (x, y))
+            .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
+          if (positions.size == 1) {
+            val position = positions.head
+            return this.map(
+              (x0: Int, y0: Int) =>
+                if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
+                else this(x0, y0)
+            )
+          }
+        }
+      }
+    }
+
+    // TODO: Add test
+    val diagNumbers = (0 until 9).toSet --
+      (for (j <- (0 until 9)) yield this(j, j)).filter(_.isDefined).map(_.value.get).toSet
+    for (number <- diagNumbers) {
+      val positions = (for (j <- (0 until 9)) yield (j, j))
+        .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
+      if (positions.size == 1) {
+        val position = positions.head
+        return this.map(
+          (x0, y0) =>
+            if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
+            else this(x0, y0)
+        )
+      }
+    }
+
+    // TODO: Add test
+    val invDiagNumers = (0 until 9).toSet --
+      (for (j <- (0 until 9)) yield this(j, 8 - j)).filter(_.isDefined).map(_.value.get).toSet
+    for (number <- invDiagNumers) {
+      val positions = (for (j <- (0 until 9)) yield (j, 8 - j))
+        .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
+      if (positions.size == 1) {
+        val position = positions.head
+        return this.map(
+          (x0, y0) =>
+            if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
+            else this(x0, y0)
+        )
+      }
+    }
+
     this
   }
 
