@@ -221,6 +221,54 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     res
   }
 
+  // TODO: ちゃんとテストする
+  def ensure: Boolean = {
+    // 横方向
+    for (y <- (0 until 9)) {
+      val numbers = this.row(y).filter(_.isDefined).toList
+      if (numbers != numbers.distinct) {
+        return false
+      }
+    }
+
+    // 縦方向
+    for (x <- (0 until 9)) {
+      val numbers = this.col(x).filter(_.isDefined).toList
+      if (numbers != numbers.distinct) {
+        return false
+      }
+    }
+
+    // セル内
+    for (yCell <- (0 until 3); xCell <- (0 until 3)) {
+      val numbers =
+        (for (y <- (3 * yCell until 3 * yCell + 3); x <- (3 * xCell until 3 * xCell + 3))
+          yield this(x, y))
+        .filter(_.isDefined).toList
+      if (numbers != numbers.distinct) {
+        return false
+      }
+    }
+
+    // 対角線上
+    val diagNumbers =
+      (for (j <- (0 until 9)) yield this(j, j))
+      .filter(_.isDefined).toList
+    if (diagNumbers != diagNumbers.distinct) {
+      return false
+    }
+
+    // 逆対角線上
+    val invDiagNumbners =
+      (for (j <- (0 until 9)) yield this(j, 8 - j))
+      .filter(_.isDefined).toList
+    if (invDiagNumbners != invDiagNumbners.distinct) {
+      return false
+    }
+
+    true
+  }
+
   def solveNext1: SudokuXBoard = {
     // 横方向
     for (y0 <- (0 until 9)) {
@@ -446,7 +494,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
             else this(x, y)
         ))
         .map(_.solve).flatMap {x => x}
-        .toSet
+        .filter(_.ensure).toSet
     }
   }
 

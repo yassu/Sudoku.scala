@@ -821,7 +821,8 @@ class SudokuXBoardSpec extends FunSpec {
       val board = SudokuXBoard.parse(
         "............................................1..2345...56.......1......7....8..23."
       ).get
-      val sol = board.solve
-      assert(sol.head.count == 81)
+      val sols = board.solve
+      assert(sols.size == 1)
+      assert(sols.head.count == 81)
   }
 }
