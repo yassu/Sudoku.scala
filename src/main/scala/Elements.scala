@@ -400,6 +400,25 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     this
   }
 
+  def solveNext: SudokuXBoard = {
+    val board1 = this.solveNext1
+    if (this != board1) {
+      return board1
+    }
+
+    val board2 = this.solveNext2
+    if (this != board2) {
+      return board2
+    }
+
+    val board3 = this.solveNext3
+    if (this != board3) {
+      return board3
+    }
+
+    return this
+  }
+
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
       for (y <- (0 until 9)) yield
@@ -408,6 +427,8 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       ).toList
     ).toList
   )
+
+  def count: Int = (for (y <- (0 until 9); x <- (0 until 9)) yield this(x, y)).count(_.isDefined)
 }
 
 object SudokuXBoard {
