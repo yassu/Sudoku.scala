@@ -45,6 +45,7 @@ case class Board(cells: List[List[SudokuCell]]) {
 
   def row(y: Int): List[SudokuCell] = this(y)
   def col(x: Int): List[SudokuCell] = (0 until 9).map(this(x, _)).toList
+  def size: (Int, Int) = (this.cells(0).size, this.cells.size)
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
   def apply(y: Int): List[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)

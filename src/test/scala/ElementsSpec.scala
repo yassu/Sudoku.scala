@@ -184,6 +184,14 @@ class BoardSpec extends FunSpec {
       ))
   }
 
+  it ("size") {
+    val board = Board(List(
+      List(SudokuCell(Some(1)), SudokuCell(Some(2)), SudokuCell(Some(3))),
+      List(SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(4)))
+    ))
+    assert (board.size == (3, 2))
+  }
+
   it ("apply") {
     assert(exampleBoard(0) == List(
       SudokuCell(None), SudokuCell(None), SudokuCell(None),
