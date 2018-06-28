@@ -472,15 +472,16 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     def _solve(board: SudokuXBoard): SudokuXBoard = {
       val sol = board.solveNext
       if (board == sol) {
-        return board
+        board
       }
       else {
-        return sol
+        sol
       }
     }
     val sol = _solve(this)
     if (sol.count == 81) {
-      Set(sol)
+      if (sol.ensure) Set(sol)
+      else Set()
     }
     else {
       val position = (for (y <- (0 until 9); x <- (0 until 9)) yield (x, y))
