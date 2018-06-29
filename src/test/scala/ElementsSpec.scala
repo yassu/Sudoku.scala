@@ -819,7 +819,7 @@ class SudokuXBoardSpec extends FunSpec {
 
   describe ("solve") {
       val board = SudokuXBoard.parse(
-        "...........................................12...345...51..........6..3.4.7......8"
+        "............................................1..2345...56.......1......7....8..23."
       ).get
       val sols = board.solve
       println(sols)

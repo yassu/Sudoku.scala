@@ -475,7 +475,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
         board
       }
       else {
-        sol
+        _solve(sol)
       }
     }
     val sol = _solve(this)
