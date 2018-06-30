@@ -207,64 +207,16 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     )
 
   def solveNext1: SudokuXBoard = {
-    // 横方向
-    for (y0 <- (0 until 9)) {
-      val xs = (0 until 9).filter(this(_, y0).isDefined)
-      if (xs.size == 8) {
-        val x0 = (0 until 9).filter(! xs.contains(_)).head
-        val values = xs.map(this(_, y0).value.get).toSet
-        val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-        return this.changeBoard(x0, y0, SudokuCell(Some(sol)))
-      }
-    }
-
-    // 縦方向
-    for (x0 <- (0 until 9)) {
-      val ys = (0 until 9).filter(this(x0, _).isDefined)
-      if (ys.size == 8) {
-        val y0 = (0 until 9).filter(! ys.contains(_)).head
-        val values = ys.map(this(x0, _).value.get).toSet
-        val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-        return this.changeBoard(x0, y0, SudokuCell(Some(sol)))
-      }
-    }
-
-    // セル内
-    for (x <- (0 until 3)) {
-      for (y <- (0 until 3)) {
-        val positions =
-          (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
-          .filter(t => this(t._1, t._2).isDefined)
+    UniqueLineRules.sudokuXRules.foreach(rule => {
+      val positions = rule.uniquePositions.filter(t => this(t._1, t._2).isDefined)
         if (positions.size == 8) {
-          val pos =
-            (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
-            .filter(t => ! positions.contains(t)).head
+          val pos = rule.uniquePositions.filter(! positions.contains(_)).head
           val values = positions.map(t => this(t._1, t._2).value.get).toSet
           val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
           return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
         }
       }
-    }
-
-    // 対角線上
-    val diagonalPositions = (for (j <- (0 until 9)) yield (j, j)).filter(t => this(t._1, t._2).isDefined)
-    if (diagonalPositions.size == 8) {
-      val pos = (for (j <- (0 until 9)) yield (j, j)).filter(! diagonalPositions.contains(_)).head
-      val values = diagonalPositions.map(t => this(t._1, t._2).value.get).toSet
-      val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-      return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
-    }
-
-    // 逆対角線上
-    val invDiagonalPositions = (for (j <- (0 until 9)) yield (j, 8 - j))
-      .filter(t => this(t._1, t._2).isDefined)
-    if (invDiagonalPositions.size == 8) {
-      val pos = (for (j <- (0 until 9))
-        yield (j, 8 - j)).filter(! invDiagonalPositions.contains(_)).head
-      val values = invDiagonalPositions.map(t => this(t._1, t._2).value.get).toSet
-      val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-      return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
-    }
+    )
 
     this
   }
