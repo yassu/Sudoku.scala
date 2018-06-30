@@ -2,6 +2,8 @@ package sudoku
 
 sealed abstract class UniqueLineRules {
   def uniquePositions: Seq[(Int, Int)]
+  def onLine(x: Int, y: Int): Boolean =
+    uniquePositions.contains((x, y))
 }
 
 object UniqueLineRules {

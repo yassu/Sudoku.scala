@@ -181,51 +181,14 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
 
     var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
 
-    // 横方向
-    for (cell <- this.row(y)) {
-      cell.value match {
-        case Some(n) => s -= n
-        case None =>
-      }
-    }
-
-    // 縦方向
-    for (cell <- this.col(x)) {
-      cell.value match {
-        case Some(n) => s -= n
-        case None =>
-      }
-    }
-
-    // セル内
-    for (x0 <- (x / 3 * 3 until x / 3 * 3 + 3)) {
-      for (y0 <- (y / 3 * 3 until y / 3 * 3 + 3)) {
-        val cell = this(x0, y0)
-        cell.value match {
-          case Some(n) => s -= n
-          case None =>
-        }
-      }
-    }
-
-    // 対角線
-    if (x == y) {
-      for (j <- (0 until 9)) {
-        val cell = this(j, j)
-        cell.value match {
-          case Some(n) => s -= n
-          case None =>
-        }
-      }
-    }
-
-    // 逆対角線
-    if (x + y == 8) {
-      for (j <- (0 until 9)) {
-        val cell = this(j, 8 - j)
-        cell.value match {
-          case Some(n) => s -= n
-          case None =>
+    for (rule <- UniqueLineRules.sudokuXRules) {
+      if (rule.onLine(x, y)) {
+        val cells = rule.uniquePositions.map(t => this(t._1, t._2))
+        for (cell <- cells) {
+          cell.value match {
+            case Some(n) => s -= n
+            case None =>
+          }
         }
       }
     }
