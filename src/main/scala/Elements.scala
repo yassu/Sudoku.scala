@@ -225,8 +225,8 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     for (y <- (0 until 9)) {
       for (x <- (0 until 9)) {
         val candidates = this.candidates(x, y)
-        if (! this(x, y).isDefined && this.candidates(x, y).size == 1) {
-          val value = this.candidates(x, y).head
+        if (! this(x, y).isDefined && candidates.size == 1) {
+          val value = candidates.head
           return this.changeBoard(x, y, SudokuCell(Some(value)))
         }
       }
