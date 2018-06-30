@@ -76,6 +76,6 @@ object Main {
   }
 
   def main(args: Array[String]) {
-    solveSudokuXMain(args)
+    checkEquivalenceMain(args)
   }
 }

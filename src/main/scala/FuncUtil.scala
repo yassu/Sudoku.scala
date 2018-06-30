@@ -3,19 +3,19 @@ package sudoku
 import scala.collection.mutable
 
 object FuncUtil {
-  def funcProduct[A](fs: (A => A, Int)): List[A => A] =
+  def funcProduct[A](fs: (A => A, Int)): Seq[A => A] =
     if (fs._2 == 0) {
       val f: A => A = x => x
-      List(f)
+      Seq(f)
     }
     else {
       val beforeFuncs = funcProduct(fs._1, fs._2 - 1)
-      funcProduct((fs._1, fs._2 - 1)) ++ List(
+      funcProduct((fs._1, fs._2 - 1)) ++ Seq(
         (x: A) => fs._1(beforeFuncs.last(x))
       )
     }
 
-  def funcProducts[A](fs: List[(A => A, Int)]): Set[A => A] =
+  def funcProducts[A](fs: Seq[(A => A, Int)]): Set[A => A] =
     if (fs.isEmpty) Set()
     else {
       var funcs = mutable.Set[A => A]()

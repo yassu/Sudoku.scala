@@ -32,50 +32,50 @@ class SudokuCellSpec extends FunSpec {
 }
 
 class BoardSpec extends FunSpec {
-    val exampleBoard = Board(List(
-      List(
+    val exampleBoard = Board(Seq(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
         SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
         SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(8)),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
       ),
 
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
         SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
         SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
         SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
         SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
         SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
       ),
 
-      List(
+      Seq(
         SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(1)),
         SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
         SudokuCell(Some(2)), SudokuCell(Some(5)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(5)),
         SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
         SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(6)),
       ),
-      List(
+      Seq(
         SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
         SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
         SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
@@ -83,48 +83,48 @@ class BoardSpec extends FunSpec {
     ))
 
   it ("Board instance should be initialized") {
-    Board(List(
-      List(
+    Board(Seq(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
@@ -137,7 +137,7 @@ class BoardSpec extends FunSpec {
       case SudokuCell(Some(n)) => SudokuCell(Some(n + 1))
       case SudokuCell(None) => SudokuCell(None)
     }
-    assert(exampleBoard.map(f).cells(0) == List(
+    assert(exampleBoard.map(f).cells(0) == Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(10)),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
@@ -146,7 +146,7 @@ class BoardSpec extends FunSpec {
 
   it ("rotate") {
     val board = exampleBoard.rotate
-    assert(board(0) == List(
+    assert(board(0) == Seq(
       SudokuCell(Some(2)), SudokuCell(None), SudokuCell(Some(8)),
       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
       SudokuCell(Some(5)), SudokuCell(Some(3)), SudokuCell(None)
@@ -157,7 +157,7 @@ class BoardSpec extends FunSpec {
 
   it ("flip") {
     val board = exampleBoard.flip
-    assert(board(2) == List(
+    assert(board(2) == Seq(
       SudokuCell(None), SudokuCell(None), SudokuCell(None),
       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
       SudokuCell(Some(8)), SudokuCell(Some(7)), SudokuCell(Some(5))
@@ -185,15 +185,15 @@ class BoardSpec extends FunSpec {
   }
 
   it ("size") {
-    val board = Board(List(
-      List(SudokuCell(Some(1)), SudokuCell(Some(2)), SudokuCell(Some(3))),
-      List(SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(4)))
+    val board = Board(Seq(
+      Seq(SudokuCell(Some(1)), SudokuCell(Some(2)), SudokuCell(Some(3))),
+      Seq(SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(4)))
     ))
     assert (board.size == (3, 2))
   }
 
   it ("apply") {
-    assert(exampleBoard(0) == List(
+    assert(exampleBoard(0) == Seq(
       SudokuCell(None), SudokuCell(None), SudokuCell(None),
       SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
       SudokuCell(None), SudokuCell(None), SudokuCell(None),
@@ -249,50 +249,50 @@ class BoardSpec extends FunSpec {
 }
 
 class SudokuXBoardSpec extends FunSpec {
-    val exampleBoard = SudokuXBoard(List(
-      List(
+    val exampleBoard = SudokuXBoard(Seq(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
         SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
         SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(8)),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
       ),
 
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
         SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
         SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
         SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
         SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
         SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
       ),
 
-      List(
+      Seq(
         SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(1)),
         SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
         SudokuCell(Some(2)), SudokuCell(Some(5)), SudokuCell(None),
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(5)),
         SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
         SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(6)),
       ),
-      List(
+      Seq(
         SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
         SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
         SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
@@ -300,48 +300,48 @@ class SudokuXBoardSpec extends FunSpec {
     ))
 
   it ("SudokuXBoard instance should be initialized") {
-    SudokuXBoard(List(
-      List(
+    SudokuXBoard(Seq(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
       ),
-      List(
+      Seq(
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None),
         SudokuCell(None), SudokuCell(None), SudokuCell(None)
@@ -351,12 +351,12 @@ class SudokuXBoardSpec extends FunSpec {
 
   it ("centralReplacement") {
     val board = exampleBoard.centralReplacement
-    assert(board(1) == List(
+    assert(board(1) == Seq(
       SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
       SudokuCell(None), SudokuCell(None), SudokuCell(Some(7)),
       SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None)
     ))
-    assert(board(3) == List(
+    assert(board(3) == Seq(
       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
       SudokuCell(None), SudokuCell(Some(2)), SudokuCell(Some(9)),
       SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8))
@@ -371,50 +371,50 @@ class SudokuXBoardSpec extends FunSpec {
 
     // it ("edgeReplacement2") {
     //   val sigma = Map(0 -> 0, 1 -> 2, 2 -> 1)
-    //   val resBoard = SudokuXBoard(List(
-    //     List(
+    //   val resBoard = SudokuXBoard(Seq(
+    //     Seq(
     //       SudokuCell(None), SudokuCell(None), SudokuCell(None),
     //       SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
     //       SudokuCell(None), SudokuCell(None), SudokuCell(None),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(Some(3)), SudokuCell(Some(8)), SudokuCell(None),
     //       SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
     //       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(6)),
     //       SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
     //       SudokuCell(Some(8)), SudokuCell(None), SudokuCell(None),
     //     ),
     //
-    //     List(
+    //     Seq(
     //       SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
     //       SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
     //       SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
     //       SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
     //       SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
     //       SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
     //       SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
     //     ),
     //
-    //     List(
+    //     Seq(
     //       SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(4)),
     //       SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
     //       SudokuCell(Some(1)), SudokuCell(Some(5)), SudokuCell(None),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
     //       SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
     //       SudokuCell(None), SudokuCell(Some(2)), SudokuCell(Some(6)),
     //     ),
-    //     List(
+    //     Seq(
     //       SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
     //       SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
     //       SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
@@ -448,50 +448,50 @@ class SudokuXBoardSpec extends FunSpec {
 
   describe ("normalize") {
     it ("normalize1") {
-      val resBoard = SudokuXBoard(List(
-        List(
+      val resBoard = SudokuXBoard(Seq(
+        Seq(
           SudokuCell(None), SudokuCell(None), SudokuCell(None),
           SudokuCell(None), SudokuCell(None), SudokuCell(Some(1)),
           SudokuCell(None), SudokuCell(None), SudokuCell(None),
         ),
-        List(
+        Seq(
           SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(None),
           SudokuCell(Some(4)), SudokuCell(None), SudokuCell(None),
           SudokuCell(Some(5)), SudokuCell(Some(6)), SudokuCell(None),
         ),
-        List(
+        Seq(
           SudokuCell(Some(7)), SudokuCell(Some(4)), SudokuCell(Some(6)),
           SudokuCell(None), SudokuCell(None), SudokuCell(Some(5)),
           SudokuCell(None), SudokuCell(None), SudokuCell(None),
         ),
 
-        List(
+        Seq(
           SudokuCell(None), SudokuCell(Some(6)), SudokuCell(None),
           SudokuCell(None), SudokuCell(None), SudokuCell(Some(2)),
           SudokuCell(Some(3)), SudokuCell(None), SudokuCell(Some(8)),
         ),
-        List(
+        Seq(
           SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(9)),
           SudokuCell(Some(8)), SudokuCell(Some(4)), SudokuCell(None),
           SudokuCell(Some(1)), SudokuCell(Some(5)), SudokuCell(None),
         ),
-        List(
+        Seq(
           SudokuCell(Some(5)), SudokuCell(None), SudokuCell(Some(2)),
           SudokuCell(Some(1)), SudokuCell(Some(9)), SudokuCell(None),
           SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(6)),
         ),
 
-        List(
+        Seq(
           SudokuCell(Some(6)), SudokuCell(Some(1)), SudokuCell(Some(8)),
           SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(None),
           SudokuCell(Some(9)), SudokuCell(Some(7)), SudokuCell(None),
         ),
-        List(
+        Seq(
           SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(7)),
           SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(9)),
           SudokuCell(None), SudokuCell(Some(8)), SudokuCell(Some(3)),
         ),
-        List(
+        Seq(
           SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(Some(3)),
           SudokuCell(None), SudokuCell(Some(8)), SudokuCell(Some(7)),
           SudokuCell(Some(6)), SudokuCell(Some(1)), SudokuCell(Some(4)),

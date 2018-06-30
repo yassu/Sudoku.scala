@@ -20,7 +20,7 @@ object SudokuCell {
     else SudokuCell(None)
 }
 
-case class Board(cells: List[List[SudokuCell]]) {
+case class Board(cells: Seq[Seq[SudokuCell]]) {
   val countSet: Set[Int] = countMap.values.toSet
 
   def rotate: Board = this.map(
@@ -36,20 +36,20 @@ case class Board(cells: List[List[SudokuCell]]) {
       for (y <- (0 until 9)) yield
       (
         for (x <- (0 until 9)) yield f(x, y)
-      ).toList
-    ).toList
+      ).toSeq
+    ).toSeq
   )
 
   def countMap: Map[Int, Int] =
     (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
-  def row(y: Int): List[SudokuCell] = this(y)
-  def col(x: Int): List[SudokuCell] = (0 until 9).map(this(x, _)).toList
+  def row(y: Int): Seq[SudokuCell] = this(y)
+  def col(x: Int): Seq[SudokuCell] = (0 until 9).map(this(x, _)).toSeq
   def size: (Int, Int) = (this.cells(0).size, this.cells.size)
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
-  def apply(y: Int): List[SudokuCell] = (
+  def apply(y: Int): Seq[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)
-  ).toList
+  ).toSeq
   def toSudokuXBoard: SudokuXBoard = SudokuXBoard(cells)
   def toPrettyString: String = cells.map(cellRow => cellRow.mkString("")).mkString("\n")
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
@@ -67,15 +67,15 @@ object Board {
         for (y <- (0 until 9)) yield
         (
           for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
-        ).toList
-      ).toList
+        ).toSeq
+      ).toSeq
     ))
     else
       None
   }
 }
 
-class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
+class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
   var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
@@ -126,7 +126,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
         for (x <- (0 until 9)) {
           this(x, y).value match {
             case Some(n) => {
-              if (! map.keys.toList.contains(n)) {
+              if (! map.keys.toSeq.contains(n)) {
                 count += 1
                 map(n) = count
               }
@@ -225,7 +225,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
   def ensure: Boolean = {
     // 横方向
     for (y <- (0 until 9)) {
-      val numbers = this.row(y).filter(_.isDefined).toList
+      val numbers = this.row(y).filter(_.isDefined).toSeq
       if (numbers != numbers.distinct) {
         return false
       }
@@ -233,7 +233,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
 
     // 縦方向
     for (x <- (0 until 9)) {
-      val numbers = this.col(x).filter(_.isDefined).toList
+      val numbers = this.col(x).filter(_.isDefined).toSeq
       if (numbers != numbers.distinct) {
         return false
       }
@@ -244,7 +244,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       val numbers =
         (for (y <- (3 * yCell until 3 * yCell + 3); x <- (3 * xCell until 3 * xCell + 3))
           yield this(x, y))
-        .filter(_.isDefined).toList
+        .filter(_.isDefined).toSeq
       if (numbers != numbers.distinct) {
         return false
       }
@@ -253,7 +253,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     // 対角線上
     val diagNumbers =
       (for (j <- (0 until 9)) yield this(j, j))
-      .filter(_.isDefined).toList
+      .filter(_.isDefined).toSeq
     if (diagNumbers != diagNumbers.distinct) {
       return false
     }
@@ -261,7 +261,7 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
     // 逆対角線上
     val invDiagNumbners =
       (for (j <- (0 until 9)) yield this(j, 8 - j))
-      .filter(_.isDefined).toList
+      .filter(_.isDefined).toSeq
     if (invDiagNumbners != invDiagNumbners.distinct) {
       return false
     }
@@ -504,8 +504,8 @@ class SudokuXBoard(cells: List[List[SudokuCell]]) extends Board(cells) {
       for (y <- (0 until 9)) yield
       (
         for (x <- (0 until 9)) yield f(x, y)
-      ).toList
-    ).toList
+      ).toSeq
+    ).toSeq
   )
 
   def count: Int = (for (y <- (0 until 9); x <- (0 until 9)) yield this(x, y)).count(_.isDefined)
@@ -522,7 +522,7 @@ object SudokuXBoard {
       Map(0 -> 2, 1 -> 0, 2 -> 1)
     )
 
-    val fs = FuncUtil.funcProducts(List(
+    val fs = FuncUtil.funcProducts(Seq(
       ((b: SudokuXBoard) => b.centralReplacement, 1),
       ((b: SudokuXBoard) => b.rotate, 3),
       ((b: SudokuXBoard) => b.flip, 1),
@@ -532,7 +532,7 @@ object SudokuXBoard {
       (b => b.normalize)
   }
 
-  def apply(cells: List[List[SudokuCell]]): SudokuXBoard =
+  def apply(cells: Seq[Seq[SudokuCell]]): SudokuXBoard =
     new SudokuXBoard(cells)
 
   def parse(s: String): Option[SudokuXBoard] = {
@@ -546,8 +546,8 @@ object SudokuXBoard {
         for (y <- (0 until 9)) yield
         (
           for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
-        ).toList
-      ).toList
+        ).toSeq
+      ).toSeq
     ))
     else
       None

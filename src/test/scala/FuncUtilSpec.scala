@@ -14,7 +14,7 @@ class FuncUtilSpec extends FunSpec {
 
     describe ("funcProducts") {
       it ("only two argument") {
-        val functions = FuncUtil.funcProducts(List(
+        val functions = FuncUtil.funcProducts(Seq(
           ((x: Int) => 2 * x, 3),
           ((x: Int) => 3 * x, 2),
         ))
