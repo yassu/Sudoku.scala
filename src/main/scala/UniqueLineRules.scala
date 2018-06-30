@@ -7,7 +7,7 @@ sealed abstract class UniqueLineRules {
 }
 
 object UniqueLineRules {
-  def sudokuXRules: Seq[UniqueLineRules] =
+  val sudokuXRules: Seq[UniqueLineRules] =
     (0 until 9).map(new OneColumnRule(_)) ++
     (0 until 9).map(new OneRowRule(_)) ++
     (for (yCell <- (0 until 3); xCell <- (0 until 3)) yield new OneCellRule(xCell, yCell)) :+
