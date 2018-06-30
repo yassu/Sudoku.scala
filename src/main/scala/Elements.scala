@@ -73,6 +73,8 @@ object Board {
     else
       None
   }
+
+  def numbers(size: Int): Set[Int] = (1 to size).toSet
 }
 
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {

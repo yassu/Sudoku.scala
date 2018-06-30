@@ -29,6 +29,11 @@ class SudokuCellSpec extends FunSpec {
     assert(SudokuCell.parse('8') == SudokuCell(Some(8)))
     assert(SudokuCell.parse('9') == SudokuCell(Some(9)))
   }
+
+  it ("numbers") {
+    assert(Board.numbers(7) == Set(1, 2, 3, 4, 5, 6, 7))
+    assert(Board.numbers(9) == Set(1, 2, 3, 4, 5, 6, 7, 8, 9))
+  }
 }
 
 class BoardSpec extends FunSpec {
