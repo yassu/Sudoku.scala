@@ -31,6 +31,17 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
     (x: Int, y: Int) => this(8 - x, y)
   )
 
+  def changeBoard(x0: Int, y0: Int, cell: SudokuCell) = Board(
+      (
+        for (y <- (0 until 9)) yield
+        (
+          for (x <- (0 until 9)) yield
+            if (x == x0 && y == y0) cell
+            else this(x, y)
+        ).toSeq
+      ).toSeq
+    )
+
   def map(f: (Int, Int) => SudokuCell): Board = Board(
     (
       for (y <- (0 until 9)) yield

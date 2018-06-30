@@ -141,6 +141,22 @@ class BoardSpec extends FunSpec {
     ))
   }
 
+  it ("changeBoard") {
+    val resBoard = Board.parse(
+      ".3...9..." +
+      "36.7..48." +
+      "578..4..." +
+
+      ".8...36.1" +
+      ".5217.94." +
+      "4.392..78" +
+
+      "89136.25." +
+      ".458.2.16" +
+      "236.15897").get
+    assert(exampleBoard.changeBoard(1, 0, SudokuCell(Some(3))) == resBoard)
+  }
+
   it ("map") {
     val f = (x: Int, y: Int) => exampleBoard(x, y) match {
       case SudokuCell(Some(n)) => SudokuCell(Some(n + 1))
