@@ -5,10 +5,12 @@ import java.nio.charset.Charset
 import java.nio.file.{Paths, Files}
 
 object Main {
+  val filename = "data.txt"
+
   def checkEquivalenceByNumberSetMain(args: Array[String]) = {
     println("checkEquivalenceByNumberSetMain")
 
-    val file = Paths.get("data.txt")
+    val file = Paths.get(filename)
     val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
          .filter(_ != "")
          .map(s => {
@@ -29,7 +31,7 @@ object Main {
   def checkEquivalenceMain(args: Array[String]) = {
     println("checkEquivalenceMain")
 
-    val file = Paths.get("data.txt")
+    val file = Paths.get(filename)
     val fs = SudokuXBoard.equivalentTransformations
     val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList
      .filter(_ != "")
@@ -64,7 +66,7 @@ object Main {
   def solveSudokuXMain(args: Array[String]) = {
     println("solveSudokuXMain")
 
-    val file = Paths.get("data.txt")
+    val file = Paths.get(filename)
     val board = Files.readAllLines(file, Charset.defaultCharset()).take(1)
       .map(s => {
         SudokuXBoard.parse(s).get
