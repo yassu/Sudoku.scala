@@ -67,15 +67,22 @@ object Main {
     println("solveSudokuXMain")
 
     val file = Paths.get(filename)
-    val board = Files.readAllLines(file, Charset.defaultCharset()).take(1)
+
+    val boardInfos = Files.readAllLines(file, Charset.defaultCharset()).take(5)
       .map(s => {
-        SudokuXBoard.parse(s).get
+        val board = SudokuXBoard.parse(s).get
+        (board.toString, board.solve.map(b => b.toString))
       })
-      .head
-    println(board.toPrettyString)
+    boardInfos.foreach(s => {
+      println(s._1)
+      println("size: " + s._2.size.toString)
+      s._2.foreach(
+        bs => println(" " * 4 + bs.toString)
+      )
+    })
   }
 
   def main(args: Array[String]) {
-    checkEquivalenceMain(args)
+    solveSudokuXMain(args)
   }
 }
