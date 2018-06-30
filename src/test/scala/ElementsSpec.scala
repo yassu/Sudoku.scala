@@ -34,6 +34,10 @@ class SudokuCellSpec extends FunSpec {
     assert(Board.numbers(7) == Set(1, 2, 3, 4, 5, 6, 7))
     assert(Board.numbers(9) == Set(1, 2, 3, 4, 5, 6, 7, 8, 9))
   }
+
+  it ("nuberStrings") {
+    assert(Board.numberStrings(9) == Set("1", "2", "3", "4", "5", "6", "7", "8", "9"))
+  }
 }
 
 class BoardSpec extends FunSpec {

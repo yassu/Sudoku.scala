@@ -75,6 +75,7 @@ object Board {
   }
 
   def numbers(size: Int): Set[Int] = (1 to size).toSet
+  def numberStrings(size: Int): Set[String] = (1 to size).map(_.toString).toSet
 }
 
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
