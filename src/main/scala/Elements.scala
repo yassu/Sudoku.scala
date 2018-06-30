@@ -169,34 +169,34 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     )
   }
 
-  def candidates(x: Int, y: Int): Set[Int] = {
+  def candidates(x: Int, y: Int): Set[Int] =
     if (_candidates.keySet.contains((x, y))) {
-      return _candidates((x, y))
+      _candidates((x, y))
     }
-
-    if (this(x, y).isDefined)
-    {
-      return Set(this(x, y).value.get)
+    else if (this(x, y).isDefined) {
+      Set(this(x, y).value.get)
     }
-
-    var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
-
-    for (rule <- UniqueLineRules.sudokuXRules) {
-      if (rule.onLine(x, y)) {
-        val cells = rule.uniquePositions.map(t => this(t._1, t._2))
-        for (cell <- cells) {
-          cell.value match {
-            case Some(n) => s -= n
-            case None =>
+    else {
+      var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
+      UniqueLineRules.sudokuXRules
+        .filter(_.onLine(x, y))
+        .foreach(rule =>
+          {
+             rule
+              .uniquePositions
+              .map(t => this(t._1, t._2))
+              .foreach(cell => cell.value match {
+                  case Some(n) => s -= n
+                  case None =>
+                }
+              )
           }
-        }
-      }
-    }
+        )
 
-    val res = s.toSet
-    _candidates((x, y)) = res
-    res
-  }
+      val res = s.toSet
+      _candidates((x, y)) = res
+      res
+    }
 
   def ensure: Boolean =
     UniqueLineRules.sudokuXRules.forall(
