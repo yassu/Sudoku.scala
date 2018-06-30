@@ -275,10 +275,10 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
   def solveNext1: SudokuXBoard = {
     // 横方向
     for (y0 <- (0 until 9)) {
-      val row = this(y0).filter(_.isDefined)
-      if (row.size == 8) {
-        val x0 = (0 until 9).filter(! this(_, y0).isDefined).head
-        val values = row.map(_.value.get).toSet
+      val xs = (0 until 9).filter(this(_, y0).isDefined)
+      if (xs.size == 8) {
+        val x0 = (0 until 9).filter(! xs.contains(_)).head
+        val values = xs.map(this(_, y0).value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
         return this.map(
           (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
@@ -288,10 +288,10 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
 
     // 縦方向
     for (x0 <- (0 until 9)) {
-      val col = this.col(x0).filter(_.isDefined)
-      if (col.size == 8) {
-        val y0 = (0 until 9).filter(! this(x0, _).isDefined).head
-        val values = col.map(_.value.get).toSet
+      val ys = (0 until 9).filter(this(x0, _).isDefined)
+      if (ys.size == 8) {
+        val y0 = (0 until 9).filter(! ys.contains(_)).head
+        val values = ys.map(this(x0, _).value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
         return this.map(
           (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
@@ -302,14 +302,14 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     // セル内
     for (x <- (0 until 3)) {
       for (y <- (0 until 3)) {
-        val cells =
-          (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield this(x0, y0))
-          .filter(_.isDefined)
-        if (cells.size == 8) {
+        val positions =
+          (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
+          .filter(t => this(t._1, t._2).isDefined)
+        if (positions.size == 8) {
           val pos =
             (for (x0 <- (3 * x until 3 * x + 3); y0 <- (3 * y until 3 * y + 3)) yield (x0, y0))
-            .filter(t => ! this(t._1, t._2).isDefined).head
-          val values = cells.map(_.value.get).toSet
+            .filter(t => ! positions.contains(t)).head
+          val values = positions.map(t => this(t._1, t._2).value.get).toSet
           val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
           return this.map(
             (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
@@ -319,10 +319,10 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     }
 
     // 対角線上
-    val diagonalCells = (for (j <- (0 until 9)) yield this(j, j)).filter(_.isDefined)
-    if (diagonalCells.size == 8) {
-      val pos = (for (j <- (0 until 9)) yield (j, j)).filter(pos => ! this(pos._1, pos._2).isDefined).head
-      val values = diagonalCells.map(_.value.get).toSet
+    val diagonalPositions = (for (j <- (0 until 9)) yield (j, j)).filter(t => this(t._1, t._2).isDefined)
+    if (diagonalPositions.size == 8) {
+      val pos = (for (j <- (0 until 9)) yield (j, j)).filter(! diagonalPositions.contains(_)).head
+      val values = diagonalPositions.map(t => this(t._1, t._2).value.get).toSet
       val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
       return this.map(
         (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
@@ -330,11 +330,12 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
     }
 
     // 逆対角線上
-    val invDiagonalCells = (for (j <- (0 until 9)) yield this(j, 8 - j)).filter(_.isDefined)
-    if (invDiagonalCells.size == 8) {
+    val invDiagonalPositions = (for (j <- (0 until 9)) yield (j, 8 - j))
+      .filter(t => this(t._1, t._2).isDefined)
+    if (invDiagonalPositions.size == 8) {
       val pos = (for (j <- (0 until 9))
-        yield (j, 8 - j)).filter(pos => ! this(pos._1, pos._2).isDefined).head
-      val values = invDiagonalCells.map(_.value.get).toSet
+        yield (j, 8 - j)).filter(! invDiagonalPositions.contains(_)).head
+      val values = invDiagonalPositions.map(t => this(t._1, t._2).value.get).toSet
       val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
       return this.map(
         (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
