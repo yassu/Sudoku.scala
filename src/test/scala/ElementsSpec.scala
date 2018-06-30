@@ -842,12 +842,12 @@ class SudokuXBoardSpec extends FunSpec {
     }
   }
 
-  describe ("solve") {
-      val board = SudokuXBoard.parse(
-        "............................................1..2345...56.......1......7....8..23."
-      ).get
-      val sols = board.solve
-      assert(sols.size == 1)
-      assert(sols.head.count == 81)
-  }
+  // describe ("solve") {
+  //     val board = SudokuXBoard.parse(
+  //       "............................................1..2345...56.......1......7....8..23."
+  //     ).get
+  //     val sols = board.solve
+  //     assert(sols.size == 1)
+  //     assert(sols.head.count == 81)
+  // }
 }

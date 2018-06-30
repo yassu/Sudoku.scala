@@ -291,9 +291,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         val x0 = (0 until 9).filter(! xs.contains(_)).head
         val values = xs.map(this(_, y0).value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-        return this.map(
-          (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
-        )
+        return this.changeBoard(x0, y0, SudokuCell(Some(sol)))
       }
     }
 
@@ -304,9 +302,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         val y0 = (0 until 9).filter(! ys.contains(_)).head
         val values = ys.map(this(x0, _).value.get).toSet
         val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-        return this.map(
-          (x: Int, y: Int) => if (x == x0 && y == y0) SudokuCell(Some(sol)) else this(x, y)
-        )
+        return this.changeBoard(x0, y0, SudokuCell(Some(sol)))
       }
     }
 
@@ -322,9 +318,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
             .filter(t => ! positions.contains(t)).head
           val values = positions.map(t => this(t._1, t._2).value.get).toSet
           val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-          return this.map(
-            (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
-          )
+          return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
         }
       }
     }
@@ -335,9 +329,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
       val pos = (for (j <- (0 until 9)) yield (j, j)).filter(! diagonalPositions.contains(_)).head
       val values = diagonalPositions.map(t => this(t._1, t._2).value.get).toSet
       val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-      return this.map(
-        (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
-      )
+      return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
     }
 
     // 逆対角線上
@@ -348,9 +340,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         yield (j, 8 - j)).filter(! invDiagonalPositions.contains(_)).head
       val values = invDiagonalPositions.map(t => this(t._1, t._2).value.get).toSet
       val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-      return this.map(
-        (x: Int, y: Int) => if (x == pos._1 && y == pos._2) SudokuCell(Some(sol)) else this(x, y)
-      )
+      return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
     }
 
     this
@@ -362,9 +352,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         val candidates = this.candidates(x, y)
         if (! this(x, y).isDefined && this.candidates(x, y).size == 1) {
           val value = this.candidates(x, y).head
-          return this.map(
-            (x0: Int, y0: Int) => if (x == x0 && y == y0) SudokuCell(Some(value)) else this(x0, y0)
-          )
+          return this.changeBoard(x, y, SudokuCell(Some(value)))
         }
       }
     }
@@ -513,6 +501,9 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         .filter(_.ensure).toSet
     }
   }
+
+  override def changeBoard(x: Int, y: Int, cell: SudokuCell): SudokuXBoard =
+    super.changeBoard(x, y, cell).toSudokuXBoard
 
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
