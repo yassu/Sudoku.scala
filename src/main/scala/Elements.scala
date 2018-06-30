@@ -369,11 +369,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
           .toSet
         if (positions.size == 1) {
           val position = positions.head
-          return this.map(
-            (x0: Int, y0: Int) =>
-              if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
-              else this(x0, y0)
-          )
+          return changeBoard(position._1, position._2, SudokuCell(Some(number)))
         }
       }
     }
@@ -387,11 +383,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
           filter(t => this.candidates(t._1, t._2).contains(number)).toSet
           if (positions.size == 1) {
             val position = positions.head
-            return this.map(
-              (x0: Int, y0: Int) =>
-                if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
-                else this(x0, y0)
-            )
+            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
           }
       }
     }
@@ -407,11 +399,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
             .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
           if (positions.size == 1) {
             val position = positions.head
-            return this.map(
-              (x0: Int, y0: Int) =>
-                if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
-                else this(x0, y0)
-            )
+            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
           }
         }
       }
@@ -425,11 +413,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
       if (positions.size == 1) {
         val position = positions.head
-        return this.map(
-          (x0, y0) =>
-            if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
-            else this(x0, y0)
-        )
+        return changeBoard(position._1, position._2, SudokuCell(Some(number)))
       }
     }
 
@@ -441,11 +425,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
         .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
       if (positions.size == 1) {
         val position = positions.head
-        return this.map(
-          (x0, y0) =>
-            if (x0 == position._1 && y0 == position._2) SudokuCell(Some(number))
-            else this(x0, y0)
-        )
+        return changeBoard(position._1, position._2, SudokuCell(Some(number)))
       }
     }
 
