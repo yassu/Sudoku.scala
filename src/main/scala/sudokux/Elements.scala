@@ -5,7 +5,6 @@ import sudoku.{FuncUtil}
 import scala.collection.mutable
 
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
-  var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
   val rules = UniqueLineRules.sudokuXRules
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
@@ -85,35 +84,6 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     )
   }
 
-  def candidates(x: Int, y: Int): Set[Int] =
-    if (_candidates.keySet.contains((x, y))) {
-      _candidates((x, y))
-    }
-    else if (this(x, y).isDefined) {
-      Set(this(x, y).value.get)
-    }
-    else {
-      var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
-      UniqueLineRules.sudokuXRules
-        .filter(_.onLine(x, y))
-        .foreach(rule =>
-          {
-             rule
-              .uniquePositions
-              .map(t => this(t._1, t._2))
-              .foreach(cell => cell.value match {
-                  case Some(n) => s -= n
-                  case None =>
-                }
-              )
-          }
-        )
-
-      val res = s.toSet
-      _candidates((x, y)) = res
-      res
-    }
-
   def ensure: Boolean =
     UniqueLineRules.sudokuXRules.forall(
       rule => {
@@ -121,34 +91,6 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
         numbers == numbers.distinct
       }
     )
-
-  def solveNext1: SudokuXBoard = {
-    UniqueLineRules.sudokuXRules.foreach(rule => {
-      val positions = rule.uniquePositions.filter(t => this(t._1, t._2).isDefined)
-        if (positions.size == 8) {
-          val pos = rule.uniquePositions.filter(! positions.contains(_)).head
-          val values = positions.map(t => this(t._1, t._2).value.get).toSet
-          val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
-          return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
-        }
-      }
-    )
-
-    this
-  }
-
-  def solveNext2: SudokuXBoard = {
-    for (y <- (0 until 9)) {
-      for (x <- (0 until 9)) {
-        val candidates = this.candidates(x, y)
-        if (! this(x, y).isDefined && candidates.size == 1) {
-          val value = candidates.head
-          return this.changeBoard(x, y, SudokuCell(Some(value)))
-        }
-      }
-    }
-    this
-  }
 
   def solveNext3: SudokuXBoard = {
     // 横方向で候補になっている場所が一つだけなら確定
@@ -226,12 +168,12 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
   def solveNext: SudokuXBoard = {
     val board1 = this.solveNext1
     if (this != board1) {
-      return board1
+      return board1.toSudokuXBoard
     }
 
     val board2 = this.solveNext2
     if (this != board2) {
-      return board2
+      return board2.toSudokuXBoard
     }
 
     val board3 = this.solveNext3

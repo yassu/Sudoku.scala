@@ -102,8 +102,67 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
 
   val sizeOne: Int = cells.head.size
   val rules: Seq[UniqueLineRules]
+  var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
 
   if (! cells.forall(cellRow => cellRow.size == sizeOne)) {
     throw new IllegalArgumentException("Cell size is strange.")
+  }
+
+  def candidates(x: Int, y: Int): Set[Int] =
+    if (_candidates.keySet.contains((x, y))) {
+      _candidates((x, y))
+    }
+    else if (this(x, y).isDefined) {
+      Set(this(x, y).value.get)
+    }
+    else {
+      var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
+      UniqueLineRules.sudokuXRules
+        .filter(_.onLine(x, y))
+        .foreach(rule =>
+          {
+             rule
+              .uniquePositions
+              .map(t => this(t._1, t._2))
+              .foreach(cell => cell.value match {
+                  case Some(n) => s -= n
+                  case None =>
+                }
+              )
+          }
+        )
+
+      val res = s.toSet
+      _candidates((x, y)) = res
+      res
+    }
+
+
+  def solveNext1: Board = {
+    rules.foreach(rule => {
+      val positions = rule.uniquePositions.filter(t => this(t._1, t._2).isDefined)
+        if (positions.size == 8) {
+          val pos = rule.uniquePositions.filter(! positions.contains(_)).head
+          val values = positions.map(t => this(t._1, t._2).value.get).toSet
+          val sol = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- values).head
+          return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
+        }
+      }
+    )
+
+    this
+  }
+
+  def solveNext2: Board = {
+    for (y <- (0 until 9)) {
+      for (x <- (0 until 9)) {
+        val candidates = this.candidates(x, y)
+        if (! this(x, y).isDefined && candidates.size == 1) {
+          val value = candidates.head
+          return this.changeBoard(x, y, SudokuCell(Some(value)))
+        }
+      }
+    }
+    this
   }
 }
