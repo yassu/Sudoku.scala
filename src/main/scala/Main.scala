@@ -3,6 +3,7 @@ package sudoku
 import scala.collection.JavaConversions._
 import java.nio.charset.Charset
 import java.nio.file.{Paths, Files}
+import sudoku.sudokux._
 
 object Main {
   val filename = "data.txt"
