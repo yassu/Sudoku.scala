@@ -90,3 +90,18 @@ object Board {
   def numberStrings(size: Int): Set[String] = (1 to size).map(_.toString).toSet
 }
 
+class SquareBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
+  if (cells.isEmpty) {
+    throw new IllegalArgumentException("Cell of squareboard shouble not be empty.")
+  }
+
+  if (cells.head.size != cells.size) {
+    throw new IllegalArgumentException("Number of col should be number of row.")
+  }
+
+  val sizeOne: Int = cells.head.size
+
+  if (! cells.forall(cellRow => cellRow.size == sizeOne)) {
+    throw new IllegalArgumentException("Cell size is strange.")
+  }
+}

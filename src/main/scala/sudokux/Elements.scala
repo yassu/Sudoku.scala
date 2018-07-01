@@ -1,10 +1,10 @@
 package sudoku.sudokux
 
-import sudoku.{SudokuCell, Board, UniqueLineRules}
+import sudoku.{SudokuCell, Board, SquareBoard, UniqueLineRules}
 import sudoku.{FuncUtil}
 import scala.collection.mutable
 
-class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
+class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends SquareBoard(cells) {
   var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
