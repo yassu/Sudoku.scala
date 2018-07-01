@@ -92,46 +92,9 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
       }
     )
 
-  def solveNext3: SudokuXBoard = {
-    for (rule <- rules) {
-      var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) --
-        rule.uniquePositions.map(pos => this(pos._1, pos._2)).filter(_.isDefined).map(_.value.get)
-        .toSet
-      for (number <- numbers) {
-        val positions =
-          rule.uniquePositions.filter(t => this.candidates(t._1, t._2).contains(number)).toSet
-        if (positions.size == 1) {
-            val position = positions.head
-            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
-        }
-      }
-    }
-
-    this
-  }
-
-  def solveNext: SudokuXBoard = {
-    val board1 = this.solveNext1
-    if (this != board1) {
-      return board1.toSudokuXBoard
-    }
-
-    val board2 = this.solveNext2
-    if (this != board2) {
-      return board2.toSudokuXBoard
-    }
-
-    val board3 = this.solveNext3
-    if (this != board3) {
-      return board3
-    }
-
-    return this
-  }
-
   def solve: Set[SudokuXBoard] = {
     def _solve(board: SudokuXBoard): SudokuXBoard = {
-      val sol = board.solveNext
+      val sol = board.solveNext.toSudokuXBoard
       if (board == sol) {
         board
       }

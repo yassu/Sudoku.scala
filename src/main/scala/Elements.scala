@@ -2,7 +2,6 @@ package sudoku
 
 import scala.collection.mutable
 import scala.math.Ordering
-import sudoku.UniqueLineRules
 import sudokux.SudokuXBoard
 
 case class SudokuCell(value: Option[Int]) {
@@ -164,5 +163,43 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
       }
     }
     this
+  }
+
+  def solveNext3: Board = {
+    for (rule <- rules) {
+      var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) --
+        rule.uniquePositions.map(pos => this(pos._1, pos._2)).filter(_.isDefined).map(_.value.get)
+        .toSet
+      for (number <- numbers) {
+        val positions =
+          rule.uniquePositions.filter(t => this.candidates(t._1, t._2).contains(number)).toSet
+        if (positions.size == 1) {
+            val position = positions.head
+            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
+        }
+      }
+    }
+
+    this
+  }
+
+
+  def solveNext: Board = {
+    val board1 = this.solveNext1
+    if (this != board1) {
+      return board1
+    }
+
+    val board2 = this.solveNext2
+    if (this != board2) {
+      return board2
+    }
+
+    val board3 = this.solveNext3
+    if (this != board3) {
+      return board3
+    }
+
+    return this
   }
 }
