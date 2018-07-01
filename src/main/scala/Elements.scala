@@ -90,7 +90,7 @@ object Board {
   def numberStrings(size: Int): Set[String] = (1 to size).map(_.toString).toSet
 }
 
-class SquareBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
+class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
   if (cells.isEmpty) {
     throw new IllegalArgumentException("Cell of squareboard shouble not be empty.")
   }
