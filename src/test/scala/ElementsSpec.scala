@@ -529,17 +529,17 @@ class SudokuXBoardSpec extends FunSpec {
     it ("normalize2") {
       val board = SudokuXBoard.parse(
         "......................................." +
-        "1...23.4..5....6.7.8..........4.2..2....5.").get
+        "1...23.4..5....6.7.8..........4.2..2....5.", 9).get
       assert(board.normalize.toString == board.toString)
     }
 
     it ("normalize3") {
       val board = SudokuXBoard.parse(
         "......................................." +
-        "2...34.5..6....7.8.9..........5.3..3....6.").get
+        "2...34.5..6....7.8.9..........5.3..3....6.", 9).get
       val resBoard = SudokuXBoard.parse(
         "......................................." +
-        "1...23.4..5....6.7.8..........4.2..2....5.").get
+        "1...23.4..5....6.7.8..........4.2..2....5.", 9).get
       assert(board.normalize == resBoard)
     }
   }
@@ -555,7 +555,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.candidates(2, 1) == Set(9))
     }
@@ -570,7 +571,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.candidates(8, 7) == Set(2, 3, 4, 5, 6, 7, 9))
     }
@@ -585,7 +587,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.candidates(7, 6) == Set(2, 3, 4, 5, 6, 8, 9))
     }
@@ -600,7 +603,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.candidates(3, 3) == Set(4, 5, 6, 7, 8, 9))
     }
@@ -615,7 +619,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.candidates(1, 7) == Set(1, 3, 4, 5, 6, 8, 9))
     }
@@ -632,7 +637,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........."
+        ".........",
+        9
       ).get
       assert(board.ensure)
     }
@@ -647,7 +653,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........."
+        ".........",
+        9
       ).get
       assert(! board.ensure)
     }
@@ -662,7 +669,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...1....." +
         "...2....." +
         "...3....." +
-        "...4....."
+        "...4.....",
+        9
       ).get
       assert(board.ensure)
     }
@@ -677,7 +685,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...1....." +
         "...2....." +
         "...3....." +
-        "...8....."
+        "...8.....",
+        9
       ).get
       assert(! board.ensure)
     }
@@ -692,7 +701,8 @@ class SudokuXBoardSpec extends FunSpec {
         "......895" +
         "........." +
         "........." +
-        "........."
+        ".........",
+        9
       ).get
       assert(board.ensure)
     }
@@ -707,7 +717,8 @@ class SudokuXBoardSpec extends FunSpec {
         "......595" +
         "........." +
         "........." +
-        "........."
+        ".........",
+        9
       ).get
       assert(! board.ensure)
     }
@@ -722,7 +733,8 @@ class SudokuXBoardSpec extends FunSpec {
         ".....6..." +
         "......7.." +
         ".......8." +
-        "........9"
+        "........9",
+        9
       ).get
       assert(board.ensure)
     }
@@ -737,7 +749,8 @@ class SudokuXBoardSpec extends FunSpec {
         ".....6..." +
         "......2.." +
         ".......8." +
-        "........9"
+        "........9",
+        9
       ).get
       assert(! board.ensure)
     }
@@ -752,7 +765,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...6....." +
         "..9......" +
         ".8......." +
-        "7........"
+        "7........",
+        9
       ).get
       assert(board.ensure)
     }
@@ -767,7 +781,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...6....." +
         "..2......" +
         ".8......." +
-        "7........"
+        "7........",
+        9
       ).get
       assert(! board.ensure)
     }
@@ -784,7 +799,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         "........." +
@@ -795,7 +811,8 @@ class SudokuXBoardSpec extends FunSpec {
         "........." +
         "........." +
         "........." +
-        "........1"
+        "........1",
+        9
       ).get
       assert(board.solveNext1 == resBoard)
     }
@@ -810,7 +827,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...8....." +
         "...9....." +
         "...3....." +
-        "...5....1"
+        "...5....1",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         "...1....." +
@@ -821,7 +839,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...8....." +
         "...9....." +
         "...3....." +
-        "...5....1"
+        "...5....1",
+        9
       ).get
       assert(board.solveNext1 == resBoard)
     }
@@ -836,7 +855,8 @@ class SudokuXBoardSpec extends FunSpec {
         "......679" +
         "........." +
         "........." +
-        ".......1."
+        ".......1.",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         "........." +
@@ -847,7 +867,8 @@ class SudokuXBoardSpec extends FunSpec {
         "......679" +
         "........." +
         "........." +
-        ".......1."
+        ".......1.",
+        9
       ).get
       assert(board.solveNext1 == resBoard)
     }
@@ -862,7 +883,8 @@ class SudokuXBoardSpec extends FunSpec {
         ".....2..." +
         "......6.." +
         ".......4." +
-        ".......18"
+        ".......18",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         "1........" +
@@ -873,7 +895,8 @@ class SudokuXBoardSpec extends FunSpec {
         ".....2..." +
         "......6.." +
         ".......4." +
-        ".......18"
+        ".......18",
+        9
       ).get
       assert(board.solveNext1 == resBoard)
     }
@@ -888,7 +911,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...7....." +
         "..9......" +
         ".3......." +
-        "1......7."
+        "1......7.",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         "........6" +
@@ -899,7 +923,8 @@ class SudokuXBoardSpec extends FunSpec {
         "...7....." +
         "..9......" +
         ".3......." +
-        "1......7."
+        "1......7.",
+        9
       ).get
       assert(board.solveNext1 == resBoard)
     }
@@ -915,7 +940,8 @@ class SudokuXBoardSpec extends FunSpec {
       "........." +
       "......7.." +
       "......8.." +
-      "........2"
+      "........2",
+      9
     ).get
     val resBoard = SudokuXBoard.parse(
       "1234569.." +
@@ -926,7 +952,8 @@ class SudokuXBoardSpec extends FunSpec {
       "........." +
       "......7.." +
       "......8.." +
-      "........2"
+      "........2",
+      9
     ).get
     assert(board.solveNext2 == resBoard)
   }
@@ -942,7 +969,8 @@ class SudokuXBoardSpec extends FunSpec {
         "8........" +
         "..7...7.." +
         "......8.." +
-        "........2"
+        "........2",
+        9
       ).get
       val resBoard = SudokuXBoard.parse(
         ".8.456139" +
@@ -953,7 +981,8 @@ class SudokuXBoardSpec extends FunSpec {
         "8........" +
         "..7...7.." +
         "......8.." +
-        "........2"
+        "........2",
+        9
       ).get
       assert(board.solveNext3 == resBoard)
     }
@@ -969,7 +998,8 @@ class SudokuXBoardSpec extends FunSpec {
       "6........" +
       "1........" +
       "3........" +
-      "9........"
+      "9........",
+      9
     ).get
     val resBoard = SudokuXBoard.parse(
       "..7..8..." +
@@ -980,7 +1010,8 @@ class SudokuXBoardSpec extends FunSpec {
       "6........" +
       "1........" +
       "3........" +
-      "9........"
+      "9........",
+      9
     ).get
     assert(board.solveNext3 == resBoard)
   }
@@ -988,7 +1019,8 @@ class SudokuXBoardSpec extends FunSpec {
   describe ("solveNext") {
     it ("count") {
       val board = SudokuXBoard.parse(
-        "............................................1..234.....5...6......72..6.8.4.....5"
+        "............................................1..234.....5...6......72..6.8.4.....5",
+        9
       ).get
       assert(board.solveNext.count == board.count + 1)
     }

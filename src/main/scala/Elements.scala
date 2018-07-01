@@ -396,22 +396,9 @@ object SudokuXBoard {
   def apply(cells: Seq[Seq[SudokuCell]]): SudokuXBoard =
     new SudokuXBoard(cells)
 
-  def parse(s: String): Option[SudokuXBoard] = {
-    val ok =
-      s.size == 81 &&
-      s.forall(Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '.').contains(_))
-
-    if (ok)
-      Some(SudokuXBoard(
-      (
-        for (y <- (0 until 9)) yield
-        (
-          for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
-        ).toSeq
-      ).toSeq
-    ))
-    else
-      None
+  def parse(s: String, size: Int): Option[SudokuXBoard] = Board.parse(s, size) match {
+    case Some(board) => Some(board.toSudokuXBoard)
+    case None => None
   }
 
   implicit val ordering: Ordering[SudokuXBoard] = Ordering.by(b => b.toString)
