@@ -153,7 +153,7 @@ class BoardSpec extends FunSpec {
 
       "89136.25." +
       ".458.2.16" +
-      "236.15897").get
+      "236.15897", 9).get
     assert(exampleBoard.changeBoard(1, 0, SudokuCell(Some(3))) == resBoard)
   }
 
@@ -260,15 +260,15 @@ class BoardSpec extends FunSpec {
   describe ("parse") {
     it ("example sudoku") {
       val boardString = exampleBoard.toString
-      assert(Board.parse(boardString) == Some(exampleBoard))
+      assert(Board.parse(boardString, 9) == Some(exampleBoard))
     }
     it ("large string") {
       val boardString = exampleBoard.toString + "123"
-      assert(Board.parse(boardString) == None)
+      assert(Board.parse(boardString, 9) == None)
     }
     it ("strange charactor") {
       val boardString = exampleBoard.toString.replace('.', 'x')
-      assert(Board.parse(boardString) == None)
+      assert(Board.parse(boardString, 9) == None)
     }
   }
 }

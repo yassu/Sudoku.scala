@@ -67,17 +67,17 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
 }
 
 object Board {
-  def parse(s: String): Option[Board] = {
+  def parse(s: String, size: Int): Option[Board] = {
     val ok =
-      s.size == 81 &&
-      s.forall(Set('1', '2', '3', '4', '5', '6', '7', '8', '9', '.').contains(_))
+      s.size == size * size &&
+      s.forall(c => (1 to size).map(_.toString).contains(c.toString) || c == '.')
 
     if (ok)
       Some(Board(
       (
-        for (y <- (0 until 9)) yield
+        for (y <- (0 until size)) yield
         (
-          for (x <- (0 until 9)) yield SudokuCell.parse(s(9 * y + x))
+          for (x <- (0 until size)) yield SudokuCell.parse(s(size * y + x))
         ).toSeq
       ).toSeq
     ))

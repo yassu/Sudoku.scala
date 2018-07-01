@@ -14,7 +14,7 @@ object Main {
     val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
          .filter(_ != "")
          .map(s => {
-           val board = Board.parse(s).get
+           val board = Board.parse(s, 9).get
           (board.toString, board.countMap.values.toList.sorted.toString)
          })
 
