@@ -58,6 +58,7 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
   def row(y: Int): Seq[SudokuCell] = this(y)
   def col(x: Int): Seq[SudokuCell] = (0 until 9).map(this(x, _)).toSeq
   def size: (Int, Int) = (this.cells(0).size, this.cells.size)
+  def count: Int = (for (y <- (0 until 9); x <- (0 until 9)) yield this(x, y)).count(_.isDefined)
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
   def apply(y: Int): Seq[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)

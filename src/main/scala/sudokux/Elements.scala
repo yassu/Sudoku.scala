@@ -137,8 +137,6 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
       ).toSeq
     ).toSeq
   )
-
-  def count: Int = (for (y <- (0 until 9); x <- (0 until 9)) yield this(x, y)).count(_.isDefined)
 }
 
 object SudokuXBoard {
