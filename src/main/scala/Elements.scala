@@ -203,4 +203,12 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
 
     return this
   }
+
+  def ensure: Boolean =
+    rules.forall(
+      rule => {
+        val numbers = rule.uniquePositions.map(t => this(t._1, t._2)).filter(_.isDefined)
+        numbers == numbers.distinct
+      }
+    )
 }

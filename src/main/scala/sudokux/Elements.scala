@@ -84,14 +84,6 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     )
   }
 
-  def ensure: Boolean =
-    UniqueLineRules.sudokuXRules.forall(
-      rule => {
-        val numbers = rule.uniquePositions.map(t => this(t._1, t._2)).filter(_.isDefined)
-        numbers == numbers.distinct
-      }
-    )
-
   def solve: Set[SudokuXBoard] = {
     def _solve(board: SudokuXBoard): SudokuXBoard = {
       val sol = board.solveNext.toSudokuXBoard
