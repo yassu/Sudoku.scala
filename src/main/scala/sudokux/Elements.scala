@@ -84,39 +84,8 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     )
   }
 
-  def solve: Set[SudokuXBoard] = {
-    def _solve(board: SudokuXBoard): SudokuXBoard = {
-      val sol = board.solveNext.toSudokuXBoard
-      if (board == sol) {
-        board
-      }
-      else {
-        _solve(sol)
-      }
-    }
-
-    val sol = _solve(this)
-    val ok = this.ensure
-
-    if (! ok)
-      Set()
-    else if (sol.count == 81)
-      Set(sol)
-    else {
-      val position = (for (y <- (0 until 9); x <- (0 until 9)) yield (x, y))
-        .filter(t => ! this(t._1, t._2).isDefined)
-        .minBy(t => this.candidates(t._1, t._2).size)
-      val candidates = this.candidates(position._1, position._2)
-      candidates
-        .map(n => this.map(
-          (x: Int, y: Int) =>
-            if (x == position._1 && y == position._2) SudokuCell(Some(n))
-            else this(x, y)
-        ))
-        .map(_.solve).flatMap {x => x}
-        .filter(_.ensure).toSet
-    }
-  }
+  def solve: Set[SudokuXBoard] =
+    CommonSudokuBoard.solve(this, _.toSudokuXBoard)
 
   override def changeBoard(x: Int, y: Int, cell: SudokuCell): SudokuXBoard =
     super.changeBoard(x, y, cell).toSudokuXBoard

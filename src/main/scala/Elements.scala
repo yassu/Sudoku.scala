@@ -212,3 +212,39 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
       }
     )
 }
+
+object CommonSudokuBoard {
+  def solve[T <: CommonSudokuBoard](board: T, f: Board => T): Set[T] = {
+    def _solve(board: T): T = {
+      val sol = f(board.solveNext)
+      if (board == sol) {
+        board
+      }
+      else {
+        _solve(sol)
+      }
+    }
+
+    val sol = _solve(board)
+    val ok = board.ensure
+
+    if (! ok)
+      Set()
+    else if (sol.count == 81)
+      Set(sol)
+    else {
+      val position = (for (y <- (0 until 9); x <- (0 until 9)) yield (x, y))
+        .filter(t => ! board(t._1, t._2).isDefined)
+        .minBy(t => board.candidates(t._1, t._2).size)
+      val candidates = board.candidates(position._1, position._2)
+      candidates
+        .map(n => board.map(
+          (x: Int, y: Int) =>
+            if (x == position._1 && y == position._2) SudokuCell(Some(n))
+            else board(x, y)
+        ))
+        .map(b => CommonSudokuBoard.solve(f(b), f)).flatMap {x => x}
+        .filter(_.ensure).toSet
+    }
+  }
+}
