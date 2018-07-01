@@ -2,6 +2,7 @@ package sudoku
 
 import scala.collection.mutable
 import scala.math.Ordering
+import sudoku.UniqueLineRules
 import sudokux.SudokuXBoard
 
 case class SudokuCell(value: Option[Int]) {
@@ -90,7 +91,7 @@ object Board {
   def numberStrings(size: Int): Set[String] = (1 to size).map(_.toString).toSet
 }
 
-class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
+abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
   if (cells.isEmpty) {
     throw new IllegalArgumentException("Cell of squareboard shouble not be empty.")
   }
@@ -100,6 +101,7 @@ class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cells) {
   }
 
   val sizeOne: Int = cells.head.size
+  val rules: Seq[UniqueLineRules]
 
   if (! cells.forall(cellRow => cellRow.size == sizeOne)) {
     throw new IllegalArgumentException("Cell size is strange.")

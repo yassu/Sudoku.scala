@@ -6,6 +6,7 @@ import scala.collection.mutable
 
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
   var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
+  val rules = UniqueLineRules.sudokuXRules
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
     fs.map(f => f(this)).min

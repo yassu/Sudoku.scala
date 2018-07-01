@@ -273,26 +273,3 @@ class BoardSpec extends FunSpec {
   }
 }
 
-class SquareBoardSpec extends FunSpec {
-  it ("empty board validate") {
-    intercept[IllegalArgumentException] {
-        new CommonSudokuBoard(Seq())
-    }
-  }
-
-  it ("col number should be equal to row number.") {
-    intercept[IllegalArgumentException] {
-      new CommonSudokuBoard(Seq(
-        Seq(SudokuCell(None), SudokuCell(None)),
-        Seq(SudokuCell(None), SudokuCell(None), SudokuCell(None)),
-      ))
-    }
-  }
-
-  it ("Common SquareBoard") {
-    new CommonSudokuBoard(Seq(
-      Seq(SudokuCell(None), SudokuCell(None)),
-      Seq(SudokuCell(None), SudokuCell(None)),
-    ))
-  }
-}
