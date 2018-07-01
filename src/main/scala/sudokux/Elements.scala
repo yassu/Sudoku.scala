@@ -93,72 +93,17 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     )
 
   def solveNext3: SudokuXBoard = {
-    // 横方向で候補になっている場所が一つだけなら確定
-    for (y <- (0 until 9)) {
-      var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- this(y).filter(_.isDefined).map(_.value.get).toSet
+    for (rule <- rules) {
+      var numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) --
+        rule.uniquePositions.map(pos => this(pos._1, pos._2)).filter(_.isDefined).map(_.value.get)
+        .toSet
       for (number <- numbers) {
         val positions =
-          (for (x <- (0 until 9)) yield (x, y)).filter(t => this.candidates(t._1, t._2).contains(number))
-          .toSet
+          rule.uniquePositions.filter(t => this.candidates(t._1, t._2).contains(number)).toSet
         if (positions.size == 1) {
-          val position = positions.head
-          return changeBoard(position._1, position._2, SudokuCell(Some(number)))
-        }
-      }
-    }
-
-    for (x <- (0 until 9)) {
-      val numbers = Set(1, 2, 3, 4, 5, 6, 7, 8, 9) --
-        this.col(x).filter(_.isDefined).map(_.value.get) .toSet
-      for (number <- numbers) {
-        val positions =
-          (for (y <- (0 until 9)) yield (x, y)).
-          filter(t => this.candidates(t._1, t._2).contains(number)).toSet
-          if (positions.size == 1) {
             val position = positions.head
             return changeBoard(position._1, position._2, SudokuCell(Some(number)))
-          }
-      }
-    }
-
-    for (yC <- (0 until 3)) {
-      for (xC <- (0 until 3)) {
-        val numbers = (1 to 9).toSet --
-          (for (y <- (3 * yC until 3 * yC + 3); x <- (3 * xC until 3 * xC + 3)) yield this(x, y))
-          .filter(_.isDefined).map(_.value.get).toSet
-        for (number <- numbers) {
-          val positions =
-            (for (y <- (3 * xC until 3 * xC + 3); x <- (3 * yC until 3 * yC + 3)) yield (x, y))
-            .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
-          if (positions.size == 1) {
-            val position = positions.head
-            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
-          }
         }
-      }
-    }
-
-    // TODO: Add test
-    val diagNumbers = (0 until 9).toSet --
-      (for (j <- (0 until 9)) yield this(j, j)).filter(_.isDefined).map(_.value.get).toSet
-    for (number <- diagNumbers) {
-      val positions = (for (j <- (0 until 9)) yield (j, j))
-        .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
-      if (positions.size == 1) {
-        val position = positions.head
-        return changeBoard(position._1, position._2, SudokuCell(Some(number)))
-      }
-    }
-
-    // TODO: Add test
-    val invDiagNumers = (0 until 9).toSet --
-      (for (j <- (0 until 9)) yield this(j, 8 - j)).filter(_.isDefined).map(_.value.get).toSet
-    for (number <- invDiagNumers) {
-      val positions = (for (j <- (0 until 9)) yield (j, 8 - j))
-        .filter(t => this.candidates(t._1, t._2).contains(number)).toSet
-      if (positions.size == 1) {
-        val position = positions.head
-        return changeBoard(position._1, position._2, SudokuCell(Some(number)))
       }
     }
 
