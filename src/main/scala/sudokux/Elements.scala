@@ -6,7 +6,7 @@ import scala.collection.mutable
 
 // 9x9であることを仮定する
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
-  val rules = UniqueRule.sudokuXRules
+  val rules = UniqueRule.sudokuXRules(this.sizeOne)
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
     fs.map(f => f(this)).min

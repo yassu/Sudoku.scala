@@ -1,7 +1,7 @@
 package sudoku
 
 class SudokuBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
-  val rules = UniqueRule.sudokuRules
+  val rules = UniqueRule.sudokuRules(this.sizeOne)
   def solve: Set[SudokuBoard] =
     CommonSudokuBoard.solve(this, _.toSudokuBoard)
 }
