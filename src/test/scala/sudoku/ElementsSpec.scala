@@ -41,11 +41,6 @@ class SudokuBoardSpec extends FunSpec {
    val sols = easyProblem.solve
    assert(sols.size == 1)
    val sol = sols.head
-   sols.head.diff(ans).foreach(println)
-   println()
-   println(sols.head.toPrettyString)
-   println(sol.ensure)
-   println(ans.ensure)
-   assert(sols == ans)
+   assert(sols == Set(ans))
   }
 }
