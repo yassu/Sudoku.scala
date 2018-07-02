@@ -55,6 +55,13 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
   def countMap: Map[Int, Int] =
     (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
+  def diff(board: Board, onlyDefined: Boolean =false): Seq[((Int, Int), (SudokuCell, SudokuCell))] =
+    (for (x <- (0 until 9); y <- (0 until 9)) yield (x, y))
+    .filter(pos => (! onlyDefined ||
+      this(pos._1, pos._2).isDefined && board(pos._1, pos._2).isDefined))
+    .filter(pos => this(pos._1, pos._2) != board(pos._1, pos._2))
+    .map(pos => (pos, (this(pos._1, pos._2), board(pos._1, pos._2)))).toSeq
+
   def row(y: Int): Seq[SudokuCell] = this(y)
   def col(x: Int): Seq[SudokuCell] = (0 until 9).map(this(x, _)).toSeq
   def size: (Int, Int) = (this.cells(0).size, this.cells.size)
@@ -63,6 +70,7 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
   def apply(y: Int): Seq[SudokuCell] = (
     for (x <- (0 until 9)) yield this(x, y)
   ).toSeq
+  def toSudokuBoard: SudokuBoard = SudokuBoard(cells)
   def toSudokuXBoard: SudokuXBoard = SudokuXBoard(cells)
   def toPrettyString: String = cells.map(cellRow => cellRow.mkString("")).mkString("\n")
   override def toString: String = cells.map(cellRow => cellRow.mkString("")).mkString("")
@@ -226,7 +234,7 @@ object CommonSudokuBoard {
     }
 
     val sol = _solve(board)
-    val ok = board.ensure
+    val ok = sol.ensure
 
     if (! ok)
       Set()
