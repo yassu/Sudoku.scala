@@ -1,11 +1,11 @@
 package sudoku.sudokux
 
-import sudoku.{SudokuCell, Board, CommonSudokuBoard, UniqueLineRules}
+import sudoku.{SudokuCell, Board, CommonSudokuBoard, UniqueRule}
 import sudoku.{FuncUtil}
 import scala.collection.mutable
 
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
-  val rules = UniqueLineRules.sudokuXRules
+  val rules = UniqueRule.sudokuXRules
 
   def representative(fs: Set[SudokuXBoard => SudokuXBoard]): SudokuXBoard =
     fs.map(f => f(this)).min

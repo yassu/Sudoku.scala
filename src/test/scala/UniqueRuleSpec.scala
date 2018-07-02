@@ -4,7 +4,7 @@ import org.scalatest.FunSpec
 
 class OneColumnRuleSpec extends FunSpec {
   it ("uniquePositions") {
-    val rule = new OneColumnRule(2)
+    val rule = new OneColumnUniqueRule(2)
     assert(rule.uniquePositions == Seq(
       (2, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (2, 6), (2, 7), (2, 8)
     ))
@@ -13,7 +13,7 @@ class OneColumnRuleSpec extends FunSpec {
 
 class OneRowRuleSpec extends FunSpec {
   it ("uniquePositions") {
-    val rule = new OneRowRule(2)
+    val rule = new OneRowUniqueRule(2)
     assert(rule.uniquePositions == Seq(
       (0, 2), (1, 2), (2, 2), (3, 2), (4, 2), (5, 2), (6, 2), (7, 2), (8, 2)
     ))
@@ -22,7 +22,7 @@ class OneRowRuleSpec extends FunSpec {
 
 class OneCellRuleSpec extends FunSpec {
   it ("uniquePositions") {
-    val rule = new OneCellRule(1, 2)
+    val rule = new OneCellUniqueRule(1, 2)
     assert(rule.uniquePositions == Seq(
       (3, 6), (4, 6), (5, 6),
       (3, 7), (4, 7), (5, 7),
@@ -33,7 +33,7 @@ class OneCellRuleSpec extends FunSpec {
 
 class DiagonalLineRuleSpec extends FunSpec {
   it ("uniquePositions") {
-    val rule = new DiagonalLineRule
+    val rule = new DiagonalUniqueRule
     assert(rule.uniquePositions == Seq(
       (0, 0),
       (1, 1),
@@ -50,7 +50,7 @@ class DiagonalLineRuleSpec extends FunSpec {
 
 class InvDiagonalLineRuleSpec extends FunSpec {
   it ("uniquePositions") {
-    val rule = new InvDiagonalLineRule
+    val rule = new InvDiagonalUniqueRule
     assert(rule.uniquePositions == Seq(
       (8, 0),
       (7, 1),

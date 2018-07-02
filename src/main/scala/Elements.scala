@@ -101,7 +101,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   }
 
   val sizeOne: Int = cells.head.size
-  val rules: Seq[UniqueLineRules]
+  val rules: Seq[UniqueRule]
   var _candidates: mutable.Map[(Int, Int), Set[Int]] = mutable.Map()
 
   if (! cells.forall(cellRow => cellRow.size == sizeOne)) {
@@ -117,7 +117,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
     }
     else {
       var s = mutable.Set(1, 2, 3, 4, 5, 6, 7, 8, 9)
-      UniqueLineRules.sudokuXRules
+      UniqueRule.sudokuXRules
         .filter(_.onLine(x, y))
         .foreach(rule =>
           {
