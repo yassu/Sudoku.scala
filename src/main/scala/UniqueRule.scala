@@ -13,6 +13,10 @@ object UniqueRule {
     (for (yCell <- (0 until 3); xCell <- (0 until 3)) yield new OneCellUniqueRule(xCell, yCell)) :+
     (new DiagonalUniqueRule) :+
     (new InvDiagonalUniqueRule)
+  val sudokuRules: Seq[UniqueRule] =
+    (0 until 9).map(new OneColumnUniqueRule(_)) ++
+    (0 until 9).map(new OneRowUniqueRule(_)) ++
+    (for (yCell <- (0 until 3); xCell <- (0 until 3)) yield new OneCellUniqueRule(xCell, yCell))
 }
 
 private[sudoku] class OneColumnUniqueRule(colNumber: Int) extends UniqueRule {
