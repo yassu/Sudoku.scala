@@ -6,7 +6,24 @@ import java.nio.file.{Paths, Files}
 import sudoku.sudokux._
 
 object Main {
-  val filename = "data.txt"
+  val filename = "su17ExtremeDiff500.txt"
+
+  def solveSudokuMain(args: Array[String]) = {
+    println("solveSudokuMain")
+
+    val file = Paths.get(filename)
+    val boards = Files.readAllLines(file, Charset.defaultCharset())
+      .filter(_ != "")
+      .map(s => {
+        val board = SudokuBoard.parse(s, 9).get
+        (board.toString, board.solve.map(_.toString))
+      })
+    boards.foreach(boards => {
+      println(boards._1)
+      boards._2.foreach(println)
+      println("=" * 90)
+    })
+  }
 
   def checkEquivalenceByNumberSetMain(args: Array[String]) = {
     println("checkEquivalenceByNumberSetMain")
@@ -84,6 +101,6 @@ object Main {
   }
 
   def main(args: Array[String]) {
-    solveSudokuXMain(args)
+    solveSudokuMain(args)
   }
 }
