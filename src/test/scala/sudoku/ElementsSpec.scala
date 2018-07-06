@@ -114,6 +114,19 @@ class SudokuBoardSpec extends FunSpec {
    assert(sols == Set(ans))
   }
 
+  it ("2x2 easy problem") {
+    val easyProblem = SudokuBoard.parse(
+      "1..2" +
+      ".2.." +
+      "..4." +
+      "4..3",
+      4
+    ).get
+    val sols = easyProblem.solve
+    assert(sols.size == 1)
+    assert(sols.head.ensure)
+  }
+
   it ("hard problem") {
     val board = SudokuBoard.parse(
       "..53....." +
