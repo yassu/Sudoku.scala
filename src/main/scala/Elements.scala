@@ -115,7 +115,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   val countSet: Set[Int] = countMap.values.toSet
 
   def countMap: Map[Int, Int] =
-    (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
+    (1 to sizeOne).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
   def candidates(x: Int, y: Int): Set[Int] =
     if (_candidates.keySet.contains((x, y))) {
