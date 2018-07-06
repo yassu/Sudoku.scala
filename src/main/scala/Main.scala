@@ -25,6 +25,21 @@ object Main {
     })
   }
 
+  def print2x2SudokuBoardsMain(args: Array[String]) = {
+    println("get2x2SudokuBoardsMain")
+
+    val initialBoard = SudokuBoard.parse(
+      "...." +
+      "...." +
+      "...." +
+      "....",
+      4
+    ).get
+
+    val boards = initialBoard.solve
+    boards.foreach(println)
+  }
+
   def checkEquivalenceByNumberSetMain(args: Array[String]) = {
     println("checkEquivalenceByNumberSetMain")
 
@@ -101,6 +116,6 @@ object Main {
   }
 
   def main(args: Array[String]) {
-    solveSudokuMain(args)
+    print2x2SudokuBoardsMain(args)
   }
 }
