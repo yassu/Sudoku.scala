@@ -189,25 +189,25 @@ class BoardSpec extends FunSpec {
     ))
   }
 
-  it ("countSet") {
-    assert(exampleBoard.countSet == Set(
-      5, 5, 5, 5, 5, 5, 5, 7, 5,
-    ))
-  }
+  // it ("countSet") {
+  //   assert(exampleBoard.countSet == Set(
+  //     5, 5, 5, 5, 5, 5, 5, 7, 5,
+  //   ))
+  // }
 
-  it ("countMap") {
-    assert(exampleBoard.countMap == Map(
-      1 -> 5,
-      2 -> 5,
-      3 -> 5,
-      4 -> 5,
-      5 -> 5,
-      6 -> 5,
-      7 -> 5,
-      8 -> 7,
-      9 -> 5,
-      ))
-  }
+  // it ("countMap") {
+  //   assert(exampleBoard.countMap == Map(
+  //     1 -> 5,
+  //     2 -> 5,
+  //     3 -> 5,
+  //     4 -> 5,
+  //     5 -> 5,
+  //     6 -> 5,
+  //     7 -> 5,
+  //     8 -> 7,
+  //     9 -> 5,
+  //     ))
+  // }
 
   it ("size") {
     val board = Board(Seq(

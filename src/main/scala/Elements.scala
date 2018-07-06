@@ -22,7 +22,6 @@ object SudokuCell {
 }
 
 case class Board(cells: Seq[Seq[SudokuCell]]) {
-  val countSet: Set[Int] = countMap.values.toSet
 
   def rotate: Board = this.map(
     (x: Int, y: Int) => this(y, size._1 - x - 1)
@@ -51,9 +50,6 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
       ).toSeq
     ).toSeq
   )
-
-  def countMap: Map[Int, Int] =
-    (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
   def diff(board: Board, onlyDefined: Boolean =false): Seq[((Int, Int), (SudokuCell, SudokuCell))] =
     (for (x <- (0 until size._1); y <- (0 until size._2)) yield (x, y))
@@ -115,6 +111,11 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   if (! cells.forall(cellRow => cellRow.size == sizeOne)) {
     throw new IllegalArgumentException("Cell size is strange.")
   }
+
+  val countSet: Set[Int] = countMap.values.toSet
+
+  def countMap: Map[Int, Int] =
+    (1 to 9).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
   def candidates(x: Int, y: Int): Set[Int] =
     if (_candidates.keySet.contains((x, y))) {

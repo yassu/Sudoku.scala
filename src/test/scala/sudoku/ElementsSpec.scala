@@ -3,6 +3,56 @@ package sudoku
 import org.scalatest.FunSpec
 
 class SudokuBoardSpec extends FunSpec {
+    val exampleBoard = SudokuBoard(Seq(
+      Seq(
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(9)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+      Seq(
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(7)), SudokuCell(None), SudokuCell(None),
+        SudokuCell(Some(4)), SudokuCell(Some(8)), SudokuCell(None),
+      ),
+      Seq(
+        SudokuCell(Some(5)), SudokuCell(Some(7)), SudokuCell(Some(8)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(4)),
+        SudokuCell(None), SudokuCell(None), SudokuCell(None),
+      ),
+
+      Seq(
+        SudokuCell(None), SudokuCell(Some(8)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(6)), SudokuCell(None), SudokuCell(Some(1)),
+      ),
+      Seq(
+        SudokuCell(None), SudokuCell(Some(5)), SudokuCell(Some(2)),
+        SudokuCell(Some(1)), SudokuCell(Some(7)), SudokuCell(None),
+        SudokuCell(Some(9)), SudokuCell(Some(4)), SudokuCell(None),
+      ),
+      Seq(
+        SudokuCell(Some(4)), SudokuCell(None), SudokuCell(Some(3)),
+        SudokuCell(Some(9)), SudokuCell(Some(2)), SudokuCell(None),
+        SudokuCell(None), SudokuCell(Some(7)), SudokuCell(Some(8)),
+      ),
+
+      Seq(
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(1)),
+        SudokuCell(Some(3)), SudokuCell(Some(6)), SudokuCell(None),
+        SudokuCell(Some(2)), SudokuCell(Some(5)), SudokuCell(None),
+      ),
+      Seq(
+        SudokuCell(None), SudokuCell(Some(4)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(None), SudokuCell(Some(2)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(6)),
+      ),
+      Seq(
+        SudokuCell(Some(2)), SudokuCell(Some(3)), SudokuCell(Some(6)),
+        SudokuCell(None), SudokuCell(Some(1)), SudokuCell(Some(5)),
+        SudokuCell(Some(8)), SudokuCell(Some(9)), SudokuCell(Some(7)),
+      ),
+    ))
+
   it ("SudokuBoard should be initialized.") {
     SudokuBoard(Seq(
       Seq(SudokuCell(None), SudokuCell(None), SudokuCell(None), SudokuCell(None)),
@@ -10,6 +60,26 @@ class SudokuBoardSpec extends FunSpec {
       Seq(SudokuCell(None), SudokuCell(None), SudokuCell(None), SudokuCell(None)),
       Seq(SudokuCell(None), SudokuCell(None), SudokuCell(None), SudokuCell(None)),
     ))
+  }
+
+  it ("countSet") {
+    assert(exampleBoard.countSet == Set(
+      5, 5, 5, 5, 5, 5, 5, 7, 5,
+    ))
+  }
+
+  it ("countMap") {
+    assert(exampleBoard.countMap == Map(
+      1 -> 5,
+      2 -> 5,
+      3 -> 5,
+      4 -> 5,
+      5 -> 5,
+      6 -> 5,
+      7 -> 5,
+      8 -> 7,
+      9 -> 5,
+      ))
   }
 
   it ("easy problem") {
