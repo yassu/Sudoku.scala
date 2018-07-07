@@ -26,7 +26,7 @@ object Main {
   }
 
   def print2x2SudokuBoardsMain(args: Array[String]) = {
-    println("get2x2SudokuBoardsMain")
+    println("print2x2SudokuBoardsMain")
 
     val initialBoard = SudokuBoard.parse(
       "...." +
