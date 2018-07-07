@@ -15,7 +15,7 @@ object Main {
     val boards = Files.readAllLines(file, Charset.defaultCharset())
       .filter(_ != "")
       .map(s => {
-        val board = SudokuBoard.parse(s, 9).get
+        val board = SudokuBoard.parse(s).get
         (board.toString, board.solve.map(_.toString))
       })
     boards.foreach(boards => {
@@ -32,8 +32,7 @@ object Main {
       "...." +
       "...." +
       "...." +
-      "....",
-      4
+      "...."
     ).get
 
     val boards = initialBoard.solve
@@ -47,7 +46,7 @@ object Main {
     val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
          .filter(_ != "")
          .map(s => {
-           val board = SudokuXBoard.parse(s, 9).get
+           val board = SudokuXBoard.parse(s).get
           (board.toString, board.countMap.values.toList.sorted.toString)
          })
 
@@ -69,7 +68,7 @@ object Main {
     val boardFeatures = Files.readAllLines(file, Charset.defaultCharset()).toList
      .filter(_ != "")
      .map(s => {
-       val board = SudokuXBoard.parse(s, 9).get
+       val board = SudokuXBoard.parse(s).get
        (board.toPrettyString, board.representative(fs).toPrettyString)
      })
     println("Loading is finished.")
@@ -103,7 +102,7 @@ object Main {
 
     val boardInfos = Files.readAllLines(file, Charset.defaultCharset()).take(5)
       .map(s => {
-        val board = SudokuXBoard.parse(s, 9).get
+        val board = SudokuXBoard.parse(s).get
         (board.toString, board.solve.map(b => b.toString))
       })
     boardInfos.foreach(s => {

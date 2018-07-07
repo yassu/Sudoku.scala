@@ -73,10 +73,21 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
 }
 
 object Board {
-  def parse(s: String, size: Int): Option[Board] = {
+  def parse(s: String): Option[Board] = {
+    val size =
+      if (s == "") 0
+      else
+        (1 to s.size)
+        .takeWhile(n => MathUtil.digit(n) * n * n <= s.size)
+        .last
+
+    val digit = s.size / size / size
+
     val ok =
-      s.size == size * size &&
-      s.forall(c => (1 to size).map(_.toString).contains(c.toString) || c == '.')
+      s.size == digit * size * size &&
+      s.grouped(digit).forall(ns =>
+        (1 to size).map(_.toString).contains(ns) ||
+        ns.forall(c => c == '.'))
 
     if (ok)
       Some(Board(

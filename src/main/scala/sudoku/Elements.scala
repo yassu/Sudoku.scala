@@ -8,7 +8,7 @@ class SudokuBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) 
 
 object SudokuBoard {
   def apply(cells: Seq[Seq[SudokuCell]]): SudokuBoard = new SudokuBoard(cells)
-  def parse(s: String, size: Int): Option[SudokuBoard] = Board.parse(s, size) match {
+  def parse(s: String): Option[SudokuBoard] = Board.parse(s) match {
     case Some(board) => Some(board.toSudokuBoard)
     case None => None
   }

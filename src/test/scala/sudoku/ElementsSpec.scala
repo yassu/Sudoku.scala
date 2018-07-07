@@ -92,8 +92,7 @@ class SudokuBoardSpec extends FunSpec {
       "6153.94.7" +
       "289467.53" +
       "751.93.6." +
-      "3.4.1827.",
-      9
+      "3.4.1827."
       ).get
 
     val ans = SudokuBoard.parse(
@@ -105,8 +104,7 @@ class SudokuBoardSpec extends FunSpec {
       "615329487" +
       "289467153" +
       "751293864" +
-      "364518279",
-      9
+      "364518279"
    ).get
    val sols = easyProblem.solve
    assert(sols.size == 1)
@@ -119,8 +117,7 @@ class SudokuBoardSpec extends FunSpec {
       "1..2" +
       ".2.." +
       "..4." +
-      "4..3",
-      4
+      "4..3"
     ).get
     val sols = easyProblem.solve
     assert(sols.size == 1)
@@ -137,8 +134,7 @@ class SudokuBoardSpec extends FunSpec {
       "..32...8." +
       ".6.5....9" +
       "..4....3." +
-      ".....97..",
-      9
+      ".....97.."
     ).get
     val sols = board.solve
     val sol = sols.head

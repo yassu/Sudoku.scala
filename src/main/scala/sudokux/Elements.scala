@@ -128,7 +128,7 @@ object SudokuXBoard {
   def apply(cells: Seq[Seq[SudokuCell]]): SudokuXBoard =
     new SudokuXBoard(cells)
 
-  def parse(s: String, size: Int): Option[SudokuXBoard] = Board.parse(s, size) match {
+  def parse(s: String): Option[SudokuXBoard] = Board.parse(s) match {
     case Some(board) => Some(board.toSudokuXBoard)
     case None => None
   }
