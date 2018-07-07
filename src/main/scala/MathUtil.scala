@@ -14,4 +14,7 @@ object MathUtil {
     81 -> 9,
     100 -> 10,
   ).getOrElse(n, -1)
+
+  def digit(n: Int): Int =
+    n.toString.size
 }
