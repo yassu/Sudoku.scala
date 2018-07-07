@@ -258,6 +258,7 @@ object CommonSudokuBoard {
         .filter(t => ! board(t._1, t._2).isDefined)
         .minBy(t => board.candidates(t._1, t._2).size)
       val candidates = board.candidates(position._1, position._2)
+      // TODO: changeBoardに変える
       candidates
         .map(n => board.map(
           (x: Int, y: Int) =>
