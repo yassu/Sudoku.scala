@@ -83,6 +83,8 @@ object Board {
 
     val digit = s.size / size / size
 
+    val numbers = s.grouped(digit).toSeq
+
     val ok =
       s.size == digit * size * size &&
       s.grouped(digit).forall(ns =>
@@ -94,7 +96,7 @@ object Board {
       (
         for (y <- (0 until size)) yield
         (
-          for (x <- (0 until size)) yield SudokuCell.parse(s(size * y + x).toString)
+          for (x <- (0 until size)) yield SudokuCell.parse(numbers(size * y + x))
         ).toSeq
       ).toSeq
     ))
