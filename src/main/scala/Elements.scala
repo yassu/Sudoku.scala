@@ -82,7 +82,6 @@ object Board {
         .last
 
     val digit = s.size / size / size
-
     val numbers = s.grouped(digit).toSeq
 
     val ok =
