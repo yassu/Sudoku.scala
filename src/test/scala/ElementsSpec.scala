@@ -17,17 +17,17 @@ class SudokuCellSpec extends FunSpec {
   }
 
   it ("parse") {
-    assert(SudokuCell.parse('.') == SudokuCell(None))
-    assert(SudokuCell.parse('x') == SudokuCell(None))
-    assert(SudokuCell.parse('1') == SudokuCell(Some(1)))
-    assert(SudokuCell.parse('2') == SudokuCell(Some(2)))
-    assert(SudokuCell.parse('3') == SudokuCell(Some(3)))
-    assert(SudokuCell.parse('4') == SudokuCell(Some(4)))
-    assert(SudokuCell.parse('5') == SudokuCell(Some(5)))
-    assert(SudokuCell.parse('6') == SudokuCell(Some(6)))
-    assert(SudokuCell.parse('7') == SudokuCell(Some(7)))
-    assert(SudokuCell.parse('8') == SudokuCell(Some(8)))
-    assert(SudokuCell.parse('9') == SudokuCell(Some(9)))
+    assert(SudokuCell.parse(".") == SudokuCell(None))
+    assert(SudokuCell.parse("x") == SudokuCell(None))
+    assert(SudokuCell.parse("1") == SudokuCell(Some(1)))
+    assert(SudokuCell.parse("2") == SudokuCell(Some(2)))
+    assert(SudokuCell.parse("3") == SudokuCell(Some(3)))
+    assert(SudokuCell.parse("4") == SudokuCell(Some(4)))
+    assert(SudokuCell.parse("5") == SudokuCell(Some(5)))
+    assert(SudokuCell.parse("6") == SudokuCell(Some(6)))
+    assert(SudokuCell.parse("7") == SudokuCell(Some(7)))
+    assert(SudokuCell.parse("8") == SudokuCell(Some(8)))
+    assert(SudokuCell.parse("9") == SudokuCell(Some(9)))
   }
 
   it ("numbers") {

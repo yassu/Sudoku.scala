@@ -16,8 +16,8 @@ case class SudokuCell(value: Option[Int]) {
 }
 
 object SudokuCell {
-  def parse(c: Char): SudokuCell =
-    if (Set('1', '2', '3', '4', '5', '6', '7', '8', '9').contains(c)) SudokuCell(Some(c.asDigit))
+  def parse(s: String): SudokuCell =
+    if (s.forall(_.isDigit)) SudokuCell(Some(s.toInt))
     else SudokuCell(None)
 }
 
@@ -83,7 +83,7 @@ object Board {
       (
         for (y <- (0 until size)) yield
         (
-          for (x <- (0 until size)) yield SudokuCell.parse(s(size * y + x))
+          for (x <- (0 until size)) yield SudokuCell.parse(s(size * y + x).toString)
         ).toSeq
       ).toSeq
     ))
