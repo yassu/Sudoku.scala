@@ -86,7 +86,7 @@ object Board {
     val ok =
       s.size == digit * size * size &&
       s.grouped(digit).forall(ns =>
-        (1 to size).map(_.toString).contains(ns) ||
+        (1 to size).map(n => ("%0" + digit + "d").format(n)).contains(ns) ||
         ns.forall(c => c == '.'))
 
     if (ok)
