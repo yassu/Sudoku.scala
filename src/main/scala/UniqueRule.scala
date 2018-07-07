@@ -45,5 +45,5 @@ private[sudoku] class DiagonalUniqueRule(size: Int) extends UniqueRule {
 
 private[sudoku] class InvDiagonalUniqueRule(size: Int) extends UniqueRule {
   val uniquePositions: Seq[(Int, Int)] =
-    for (j <- (0 until size)) yield (8 - j, j)
+    for (j <- (0 until size)) yield (size  - j - 1, j)
 }

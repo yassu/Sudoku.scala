@@ -1,10 +1,9 @@
 package sudoku.sudokux
 
-import sudoku.{SudokuCell, Board, CommonSudokuBoard, UniqueRule}
+import sudoku.{SudokuCell, Board, CommonSudokuBoard, UniqueRule, MathUtil}
 import sudoku.{FuncUtil}
 import scala.collection.mutable
 
-// 9x9であることを仮定する
 class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells) {
   val rules = UniqueRule.sudokuXRules(this.sizeOne)
 
@@ -18,6 +17,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     super.flip.toSudokuXBoard
 
   def centralReplacement: SudokuXBoard = {
+    require(sizeOne == 9)
     val board = this.map(
       ((x: Int, y: Int) =>
         if (2 < x && x < 6) this(8 - x, y)
@@ -34,15 +34,17 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
   def edgeReplacement(sigmaInv: Map[Int, Int]): SudokuXBoard = {
     val board = this.map(
       ((x: Int, y: Int) =>
-        if (0 <= x && x < 3) this(sigmaInv(x), y)
-        else if (6 <= x && x < 9) this(8 - sigmaInv(8 - x), y)
+        if (0 <= x && x < MathUtil.sqrtInt(sizeOne)) this(sigmaInv(x), y)
+        else if (sizeOne * (sizeOne - 1) <= x && x < sizeOne * sizeOne)
+          this(sizeOne - 1 - sigmaInv(sizeOne - 1 - x), y)
         else this(x, y)
       )
     )
     board.map (
       ((x: Int, y: Int) =>
         if (0 <= y && y < 3) board(x, sigmaInv(y))
-        else if (6 <= y && y < 9) board(x, 8 - sigmaInv(8 - y))
+        else if (sizeOne * (sizeOne - 1) <= y && y < sizeOne * sizeOne)
+          board(x, sizeOne - 1 - sigmaInv(sizeOne - y - 1))
         else board(x, y)
       )
     )
@@ -52,8 +54,8 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
     def normalizeMap: Map[Int, Int] = {
       var map = mutable.Map[Int, Int]()
       var count = 0
-      for (y <- (0 until 9)) {
-        for (x <- (0 until 9)) {
+      for (y <- (0 until sizeOne)) {
+        for (x <- (0 until sizeOne)) {
           this(x, y).value match {
             case Some(n) => {
               if (! map.keys.toSeq.contains(n)) {
@@ -66,11 +68,11 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
         }
       }
 
-      if (map.size < 8)
+      if (map.size < sizeOne - 1)
         throw new IllegalArgumentException("Count of " + this.toString + " numbers < 8")
       else if (map.size == 8) {
-        val nonExistedNumber = (Set(1, 2, 3, 4, 5, 6, 7, 8, 9) -- map.keys.toSet).head
-        map(nonExistedNumber) = 9
+        val nonExistedNumber = (Set((1 to sizeOne): _*) -- map.keys.toSet).head
+        map(nonExistedNumber) = sizeOne
       }
 
       map.toMap
@@ -93,9 +95,9 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
 
   override def map(f: (Int, Int) => SudokuCell): SudokuXBoard = SudokuXBoard(
     (
-      for (y <- (0 until 9)) yield
+      for (y <- (0 until sizeOne)) yield
       (
-        for (x <- (0 until 9)) yield f(x, y)
+        for (x <- (0 until sizeOne)) yield f(x, y)
       ).toSeq
     ).toSeq
   )
@@ -103,6 +105,7 @@ class SudokuXBoard(cells: Seq[Seq[SudokuCell]]) extends CommonSudokuBoard(cells)
 
 object SudokuXBoard {
   def equivalentTransformations: Set[SudokuXBoard => SudokuXBoard] = {
+    // sudokuXBoardのサイズが9であることを仮定する
     val s3 = Set(
       Map(0 -> 0, 1 -> 1, 2 -> 2),
       Map(0 -> 0, 1 -> 2, 2 -> 1),
