@@ -42,6 +42,9 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
       ).toSeq
     )
 
+  def changeBoard(pos: (Int, Int), cell: SudokuCell): Board =
+    this.changeBoard(pos._1, pos._2, cell)
+
   def map(f: (Int, Int) => SudokuCell): Board = Board(
     (
       for (y <- (0 until size._2)) yield
@@ -55,14 +58,15 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
     (for (x <- (0 until size._1); y <- (0 until size._2)) yield (x, y))
     .filter(pos => (! onlyDefined ||
       this(pos._1, pos._2).isDefined && board(pos._1, pos._2).isDefined))
-    .filter(pos => this(pos._1, pos._2) != board(pos._1, pos._2))
-    .map(pos => (pos, (this(pos._1, pos._2), board(pos._1, pos._2)))).toSeq
+    .filter(pos => this(pos) != board(pos))
+    .map(pos => (pos, (this(pos), board(pos)))).toSeq
 
   def row(y: Int): Seq[SudokuCell] = this(y)
   def col(x: Int): Seq[SudokuCell] = (0 until size._2).map(this(x, _)).toSeq
   val size: (Int, Int) = (this.cells(0).size, this.cells.size)
   def count: Int = (for (y <- (0 until size._2); x <- (0 until size._1)) yield this(x, y)).count(_.isDefined)
   def apply(x: Int, y: Int): SudokuCell = cells(y)(x)
+  def apply(pos: (Int, Int)): SudokuCell = this(pos._1, pos._2)
   def apply(y: Int): Seq[SudokuCell] = (
     for (x <- (0 until size._1)) yield this(x, y)
   ).toSeq
@@ -129,6 +133,8 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   def countMap: Map[Int, Int] =
     (1 to sizeOne).map(j => j -> this.toString.count(_ == j.toString.toCharArray.head)).toMap
 
+  def candidates(pos: (Int, Int)): Set[Int] = this.candidates(pos._1, pos._2)
+
   def candidates(x: Int, y: Int): Set[Int] =
     if (_candidates.keySet.contains((x, y))) {
       _candidates((x, y))
@@ -144,7 +150,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
           {
              rule
               .uniquePositions
-              .map(t => this(t._1, t._2))
+              .map(t => this(t))
               .foreach(cell => cell.value match {
                   case Some(n) => s -= n
                   case None =>
@@ -161,12 +167,12 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
 
   def solveNext1: Board = {
     rules.foreach(rule => {
-      val positions = rule.uniquePositions.filter(t => this(t._1, t._2).isDefined)
+      val positions = rule.uniquePositions.filter(t => this(t).isDefined)
         if (positions.size == sizeOne - 1) {
           val pos = rule.uniquePositions.filter(! positions.contains(_)).head
-          val values = positions.map(t => this(t._1, t._2).value.get).toSet
+          val values = positions.map(t => this(t).value.get).toSet
           val sol = (Set((1 to sizeOne): _*) -- values).head
-          return this.changeBoard(pos._1, pos._2, SudokuCell(Some(sol)))
+          return this.changeBoard(pos, SudokuCell(Some(sol)))
         }
       }
     )
@@ -190,14 +196,13 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   def solveNext3: Board = {
     for (rule <- rules) {
       var numbers = Set((1 to sizeOne): _*) --
-        rule.uniquePositions.map(pos => this(pos._1, pos._2)).filter(_.isDefined).map(_.value.get)
+        rule.uniquePositions.map(this(_)).filter(_.isDefined).map(_.value.get)
         .toSet
       for (number <- numbers) {
         val positions =
-          rule.uniquePositions.filter(t => this.candidates(t._1, t._2).contains(number)).toSet
+          rule.uniquePositions.filter(t => this.candidates(t).contains(number)).toSet
         if (positions.size == 1) {
-            val position = positions.head
-            return changeBoard(position._1, position._2, SudokuCell(Some(number)))
+            return changeBoard(positions.head, SudokuCell(Some(number)))
         }
       }
     }
@@ -228,7 +233,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
   def ensure: Boolean =
     rules.forall(
       rule => {
-        val numbers = rule.uniquePositions.map(t => this(t._1, t._2)).filter(_.isDefined)
+        val numbers = rule.uniquePositions.map(this(_)).filter(_.isDefined)
         numbers == numbers.distinct
       }
     )
@@ -255,12 +260,12 @@ object CommonSudokuBoard {
       Set(sol)
     else {
       val position = (for (y <- (0 until board.sizeOne); x <- (0 until board.sizeOne)) yield (x, y))
-        .filter(t => ! board(t._1, t._2).isDefined)
-        .minBy(t => board.candidates(t._1, t._2).size)
-      val candidates = board.candidates(position._1, position._2)
+        .filter(! board(_).isDefined)
+        .minBy(board.candidates(_).size)
+      val candidates = board.candidates(position)
       candidates
         .map(n => CommonSudokuBoard.solve(
-          f(board.changeBoard(position._1, position._2, SudokuCell(Some(n)))), f))
+          f(board.changeBoard(position, SudokuCell(Some(n)))), f))
         .flatMap {x => x}
         .filter(_.ensure).toSet
     }
