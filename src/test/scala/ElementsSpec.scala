@@ -3,8 +3,12 @@ package sudoku
 import org.scalatest.FunSpec
 
 class SudokuCellSpec extends FunSpec {
-  it ("SudokuCell should be initialized") {
+  it ("SudokuCell should be initialized1") {
     SudokuCell(Some(3))
+  }
+
+  it ("SudokuCell should be initialized2") {
+    SudokuCell(3)
   }
 
   describe ("toString") {

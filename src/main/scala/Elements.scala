@@ -16,6 +16,9 @@ case class SudokuCell(value: Option[Int]) {
 }
 
 object SudokuCell {
+  def apply(n: Int): SudokuCell =
+    SudokuCell(Some(n))
+
   def parse(s: String): SudokuCell =
     if (s.forall(_.isDigit)) SudokuCell(Some(s.toInt))
     else SudokuCell(None)
