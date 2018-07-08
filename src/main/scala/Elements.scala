@@ -258,14 +258,10 @@ object CommonSudokuBoard {
         .filter(t => ! board(t._1, t._2).isDefined)
         .minBy(t => board.candidates(t._1, t._2).size)
       val candidates = board.candidates(position._1, position._2)
-      // TODO: changeBoardに変える
       candidates
-        .map(n => board.map(
-          (x: Int, y: Int) =>
-            if (x == position._1 && y == position._2) SudokuCell(Some(n))
-            else board(x, y)
-        ))
-        .map(b => CommonSudokuBoard.solve(f(b), f)).flatMap {x => x}
+        .map(n => CommonSudokuBoard.solve(
+          f(board.changeBoard(position._1, position._2, SudokuCell(Some(n)))), f))
+        .flatMap {x => x}
         .filter(_.ensure).toSet
     }
   }
