@@ -64,6 +64,8 @@ case class Board(cells: Seq[Seq[SudokuCell]]) {
     .filter(pos => this(pos) != board(pos))
     .map(pos => (pos, (this(pos), board(pos)))).toSeq
 
+  def isFilled: Boolean = this.count == size._1 * size._2
+
   def row(y: Int): Seq[SudokuCell] = this(y)
   def col(x: Int): Seq[SudokuCell] = (0 until size._2).map(this(x, _)).toSeq
   val size: (Int, Int) = (this.cells(0).size, this.cells.size)
@@ -259,7 +261,7 @@ object CommonSudokuBoard {
 
     if (! ok)
       Set()
-    else if (sol.count == board.sizeOne * board.sizeOne)
+    else if (sol.isFilled)
       Set(sol)
     else {
       val position = (for (y <- (0 until board.sizeOne); x <- (0 until board.sizeOne)) yield (x, y))
