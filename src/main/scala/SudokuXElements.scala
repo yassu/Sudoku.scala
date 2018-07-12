@@ -135,3 +135,4 @@ object SudokuXBoard {
 
   implicit val ordering: Ordering[SudokuXBoard] = Ordering.by(b => b.toString)
 }
+
