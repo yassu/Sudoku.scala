@@ -44,7 +44,7 @@ object Main {
 
     val file = Paths.get(filename)
     val boards = Files.readAllLines(file, Charset.defaultCharset()).toList
-         .filter(_ != "")
+         .filter(_.nonEmpty)
          .map(s => {
            val board = SudokuXBoard.parse(s).get
           (board.toString, board.countMap.values.toList.sorted.toString)
