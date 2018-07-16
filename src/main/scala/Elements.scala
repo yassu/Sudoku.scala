@@ -177,7 +177,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
           val pos = rule.uniquePositions.filter(! positions.contains(_)).head
           val values = positions.map(t => this(t).value.get).toSet
           val sol = (Set((1 to sizeOne): _*) -- values).head
-          return this.changeBoard(pos, SudokuCell(Some(sol)))
+          return this.changeBoard(pos, SudokuCell(sol))
         }
       }
     )
@@ -191,7 +191,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
         val candidates = this.candidates(x, y)
         if (! this(x, y).isDefined && candidates.size == 1) {
           val value = candidates.head
-          return this.changeBoard(x, y, SudokuCell(Some(value)))
+          return this.changeBoard(x, y, SudokuCell(value))
         }
       }
     }
@@ -207,7 +207,7 @@ abstract class CommonSudokuBoard(cells: Seq[Seq[SudokuCell]]) extends Board(cell
         val positions =
           rule.uniquePositions.filter(t => this.candidates(t).contains(number)).toSet
         if (positions.size == 1) {
-            return changeBoard(positions.head, SudokuCell(Some(number)))
+            return changeBoard(positions.head, SudokuCell(number))
         }
       }
     }
@@ -270,7 +270,7 @@ object CommonSudokuBoard {
       val candidates = board.candidates(position)
       candidates
         .map(n => CommonSudokuBoard.solve(
-          f(board.changeBoard(position, SudokuCell(Some(n)))), f))
+          f(board.changeBoard(position, SudokuCell(n))), f))
         .flatMap {x => x}
         .filter(_.ensure).toSet
     }
